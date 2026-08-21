@@ -1,0 +1,628 @@
+<!-- ==========================================
+     MOONLIGHT DESIGNS — BROWSER UPSCALER
+=========================================== -->
+
+<div class="panel" id="upscalerPanel">
+
+  <h2>✨ Image Upscaler</h2>
+
+  <p style="color:#aaa3bd;">
+    Upscale PNG, JPG or WEBP directly in your browser.
+    Transparent PNGs stay transparent.
+  </p>
+
+  <input
+    type="file"
+    id="upscaleUpload"
+    accept="image/png,image/jpeg,image/webp"
+  >
+
+  <div class="controls">
+
+    <div class="control">
+      <label>Upscale Size</label>
+
+      <select id="upscaleAmount">
+        <option value="2">2×</option>
+        <option value="4" selected>4×</option>
+        <option value="6">6×</option>
+        <option value="8">8×</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <label>Custom Width</label>
+
+      <input
+        type="number"
+        id="customWidth"
+        value="5000"
+        min="1"
+      >
+    </div>
+
+    <div class="control">
+      <label>Custom Height</label>
+
+      <input
+        type="number"
+        id="customHeight"
+        value="5000"
+        min="1"
+      >
+    </div>
+
+    <div class="control">
+      <label>
+        Sharpen:
+        <span id="sharpValue">20</span>%
+      </label>
+
+      <input
+        type="range"
+        id="sharpness"
+        min="0"
+        max="100"
+        value="20"
+      >
+    </div>
+
+  </div>
+
+  <div class="actions">
+
+    <button id="moonlightPreset">
+      🌙 5000×5000 Preset
+    </button>
+
+    <button id="upscaleButton" class="green">
+      ✨ Upscale Image
+    </button>
+
+    <button id="downloadUpscale">
+      ⬇ Download PNG
+    </button>
+
+  </div>
+
+  <div
+    id="upscaleStatus"
+    class="status"
+  >
+    Upload an image to begin.
+  </div>
+
+  <div class="workspace">
+
+    <div>
+      <h3>Original</h3>
+
+      <div class="canvasBox checker">
+        <canvas id="upscaleOriginal"></canvas>
+      </div>
+    </div>
+
+    <div>
+      <h3>Upscaled</h3>
+
+      <div class="canvasBox checker">
+        <canvas id="upscaleResult"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ==========================================
+   UPSCALER
+========================================== */
+
+const upscaleUpload =
+document.getElementById("upscaleUpload");
+
+const upscaleOriginal =
+document.getElementById("upscaleOriginal");
+
+const upscaleResult =
+document.getElementById("upscaleResult");
+
+const originalCtx =
+upscaleOriginal.getContext("2d");
+
+const resultCtx =
+upscaleResult.getContext("2d");
+
+const upscaleAmount =
+document.getElementById("upscaleAmount");
+
+const customWidth =
+document.getElementById("customWidth");
+
+const customHeight =
+document.getElementById("customHeight");
+
+const sharpness =
+document.getElementById("sharpness");
+
+const sharpValue =
+document.getElementById("sharpValue");
+
+const upscaleStatus =
+document.getElementById("upscaleStatus");
+
+let upscaleImage = null;
+let upscaleFileName = "moonlight-upscaled";
+
+
+/* ==========================================
+   SHARPNESS DISPLAY
+========================================== */
+
+sharpness.addEventListener(
+"input",
+function(){
+
+  sharpValue.textContent =
+  sharpness.value;
+
+});
+
+
+/* ==========================================
+   LOAD IMAGE
+========================================== */
+
+upscaleUpload.addEventListener(
+"change",
+function(e){
+
+  const file =
+  e.target.files[0];
+
+  if(!file) return;
+
+  upscaleFileName =
+  file.name
+  .replace(/\.[^/.]+$/, "");
+
+  const reader =
+  new FileReader();
+
+  reader.onload =
+  function(event){
+
+    const img =
+    new Image();
+
+    img.onload =
+    function(){
+
+      upscaleImage = img;
+
+      upscaleOriginal.width =
+      img.naturalWidth;
+
+      upscaleOriginal.height =
+      img.naturalHeight;
+
+      originalCtx.clearRect(
+        0,
+        0,
+        upscaleOriginal.width,
+        upscaleOriginal.height
+      );
+
+      originalCtx.drawImage(
+        img,
+        0,
+        0
+      );
+
+      upscaleStatus.innerHTML =
+      `
+      Original:
+      <strong>
+      ${img.naturalWidth}
+      ×
+      ${img.naturalHeight}
+      </strong>
+      `;
+
+    };
+
+    img.src =
+    event.target.result;
+
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+/* ==========================================
+   MOONLIGHT PRESET
+========================================== */
+
+document
+.getElementById("moonlightPreset")
+.addEventListener(
+"click",
+function(){
+
+  upscaleAmount.value =
+  "custom";
+
+  customWidth.value =
+  5000;
+
+  customHeight.value =
+  5000;
+
+  sharpness.value =
+  20;
+
+  sharpValue.textContent =
+  "20";
+
+  upscaleStatus.textContent =
+  "Moonlight 5000 × 5000 preset selected.";
+
+});
+
+
+/* ==========================================
+   UPSCALE
+========================================== */
+
+document
+.getElementById("upscaleButton")
+.addEventListener(
+"click",
+function(){
+
+  if(!upscaleImage){
+
+    upscaleStatus.textContent =
+    "Upload an image first.";
+
+    return;
+
+  }
+
+
+  let targetWidth;
+  let targetHeight;
+
+
+  if(
+    upscaleAmount.value ===
+    "custom"
+  ){
+
+    targetWidth =
+    Number(customWidth.value);
+
+    targetHeight =
+    Number(customHeight.value);
+
+  }
+
+  else{
+
+    const multiplier =
+    Number(
+      upscaleAmount.value
+    );
+
+    targetWidth =
+    upscaleImage.naturalWidth *
+    multiplier;
+
+    targetHeight =
+    upscaleImage.naturalHeight *
+    multiplier;
+
+  }
+
+
+  /*
+  Prevent accidentally asking the browser
+  to create absurdly large canvases.
+  */
+
+  const MAX_DIMENSION =
+  12000;
+
+  if(
+    targetWidth > MAX_DIMENSION ||
+    targetHeight > MAX_DIMENSION
+  ){
+
+    upscaleStatus.textContent =
+    "Maximum browser output is 12,000 px per side.";
+
+    return;
+
+  }
+
+
+  upscaleResult.width =
+  targetWidth;
+
+  upscaleResult.height =
+  targetHeight;
+
+
+  /*
+  High quality browser interpolation
+  */
+
+  resultCtx.imageSmoothingEnabled =
+  true;
+
+  resultCtx.imageSmoothingQuality =
+  "high";
+
+
+  resultCtx.clearRect(
+    0,
+    0,
+    targetWidth,
+    targetHeight
+  );
+
+
+  resultCtx.drawImage(
+    upscaleImage,
+    0,
+    0,
+    targetWidth,
+    targetHeight
+  );
+
+
+  /*
+  Apply optional sharpening.
+  */
+
+  const sharpenAmount =
+  Number(sharpness.value) /
+  100;
+
+  if(sharpenAmount > 0){
+
+    sharpenCanvas(
+      upscaleResult,
+      sharpenAmount
+    );
+
+  }
+
+
+  upscaleStatus.innerHTML =
+  `
+  ✨ Upscale complete<br>
+  <strong>
+  ${targetWidth}
+  ×
+  ${targetHeight}
+  pixels
+  </strong>
+  `;
+
+});
+
+
+/* ==========================================
+   SHARPEN FILTER
+========================================== */
+
+function sharpenCanvas(
+canvas,
+amount
+){
+
+  const ctx =
+  canvas.getContext(
+    "2d",
+    {
+      willReadFrequently:true
+    }
+  );
+
+  const width =
+  canvas.width;
+
+  const height =
+  canvas.height;
+
+
+  const imageData =
+  ctx.getImageData(
+    0,
+    0,
+    width,
+    height
+  );
+
+  const source =
+  new Uint8ClampedArray(
+    imageData.data
+  );
+
+  const output =
+  imageData.data;
+
+
+  /*
+  Basic sharpening kernel:
+
+       0  -1   0
+      -1   5  -1
+       0  -1   0
+
+  Blended with original according
+  to the user's sharpening slider.
+  */
+
+
+  for(
+    let y = 1;
+    y < height - 1;
+    y++
+  ){
+
+    for(
+      let x = 1;
+      x < width - 1;
+      x++
+    ){
+
+      const i =
+      (y * width + x) * 4;
+
+
+      for(
+        let channel = 0;
+        channel < 3;
+        channel++
+      ){
+
+        const center =
+        source[i + channel];
+
+        const top =
+        source[
+          ((y - 1) * width + x)
+          * 4 + channel
+        ];
+
+        const bottom =
+        source[
+          ((y + 1) * width + x)
+          * 4 + channel
+        ];
+
+        const left =
+        source[
+          (y * width + x - 1)
+          * 4 + channel
+        ];
+
+        const right =
+        source[
+          (y * width + x + 1)
+          * 4 + channel
+        ];
+
+
+        const sharpened =
+        center * 5
+        - top
+        - bottom
+        - left
+        - right;
+
+
+        output[i + channel] =
+        Math.max(
+          0,
+          Math.min(
+            255,
+
+            center *
+            (1 - amount)
+            +
+
+            sharpened *
+            amount
+          )
+        );
+
+      }
+
+    }
+
+  }
+
+
+  ctx.putImageData(
+    imageData,
+    0,
+    0
+  );
+
+}
+
+
+/* ==========================================
+   DOWNLOAD PNG
+========================================== */
+
+document
+.getElementById("downloadUpscale")
+.addEventListener(
+"click",
+function(){
+
+  if(
+    !upscaleResult.width ||
+    !upscaleResult.height
+  ){
+
+    upscaleStatus.textContent =
+    "Upscale an image first.";
+
+    return;
+
+  }
+
+
+  upscaleResult.toBlob(
+  function(blob){
+
+    const url =
+    URL.createObjectURL(blob);
+
+    const link =
+    document.createElement("a");
+
+    link.href =
+    url;
+
+    link.download =
+    upscaleFileName +
+    "-upscaled.png";
+
+    document.body.appendChild(
+      link
+    );
+
+    link.click();
+
+    link.remove();
+
+
+    setTimeout(
+      function(){
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      },
+      1000
+    );
+
+  },
+  "image/png"
+  );
+
+});
+
+</script>
