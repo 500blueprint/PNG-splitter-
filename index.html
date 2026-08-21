@@ -2,35 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Moonlight PNG Studio</title>
+<title>Moonlight Smart PNG Splitter</title>
 
 <style>
 :root{
-  --purple:#6d4bc3;
-  --purple2:#8c6ce0;
-  --lavender:#f2edff;
-  --lavender2:#e5dbff;
-  --ink:#262035;
-  --muted:#6d6679;
-  --green:#21865f;
-  --red:#c84c63;
-  --blue:#3974d8;
-  --border:#d7cbea;
-  --white:#ffffff;
+  --purple:#6847b8;
+  --purple2:#8d70d2;
+  --lav:#f4efff;
+  --border:#d9cdef;
+  --ink:#292338;
+  --muted:#70687d;
+  --green:#21885f;
+  --red:#c84d63;
+  --blue:#3976d7;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
+  background:#f4f0fa;
   color:var(--ink);
-  background:
-    radial-gradient(circle at top,#ffffff 0%,#f5f0ff 45%,#ebe2ff 100%);
 }
 
 .app{
@@ -39,110 +34,55 @@ body{
   padding:25px 0 60px;
 }
 
-/* HEADER */
-
 .hero{
-  text-align:center;
   background:white;
   border:2px solid var(--border);
-  border-radius:26px;
-  padding:25px 20px;
-  box-shadow:0 12px 35px rgba(76,52,125,.12);
+  border-radius:24px;
+  padding:24px;
+  text-align:center;
 }
 
 .hero h1{
   margin:0;
-  font-size:clamp(30px,6vw,58px);
-  color:#56359f;
+  color:#56359a;
+  font-size:clamp(30px,5vw,55px);
 }
 
 .hero p{
-  max-width:800px;
-  margin:12px auto 0;
   color:var(--muted);
-  line-height:1.5;
 }
-
-/* WORKFLOW */
-
-.workflow{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:8px;
-  margin:18px 0;
-}
-
-.step{
-  background:white;
-  border:2px solid var(--border);
-  padding:12px 7px;
-  text-align:center;
-  border-radius:15px;
-  font-weight:800;
-  font-size:13px;
-}
-
-.step.active{
-  color:white;
-  background:var(--purple);
-  border-color:var(--purple);
-}
-
-@media(max-width:850px){
-  .workflow{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-/* PANELS */
 
 .panel{
   background:white;
   border:2px solid var(--border);
-  border-radius:22px;
+  border-radius:20px;
   padding:20px;
   margin-top:18px;
-  box-shadow:0 8px 28px rgba(76,52,125,.08);
 }
 
 .panel h2{
+  color:#53378e;
   margin-top:0;
-  color:#4e3588;
 }
-
-.subtext{
-  color:var(--muted);
-  line-height:1.45;
-}
-
-/* UPLOAD */
 
 .upload{
   display:block;
-  border:3px dashed #9a7add;
-  border-radius:20px;
-  padding:35px 15px;
+  padding:35px;
   text-align:center;
+  border:3px dashed #9475d4;
+  border-radius:18px;
   background:#faf8ff;
   cursor:pointer;
-  transition:.2s;
-}
-
-.upload:hover{
-  background:#f0e9ff;
-  border-color:#6d4bc3;
 }
 
 .upload strong{
-  font-size:21px;
-  color:#51378b;
+  font-size:22px;
+  color:#563a92;
 }
 
 .upload input{
   display:none;
 }
-
-/* BUTTONS */
 
 .actions{
   display:flex;
@@ -153,54 +93,31 @@ body{
 
 button{
   border:0;
-  border-radius:13px;
   padding:13px 17px;
-  font-weight:800;
-  font-size:14px;
+  border-radius:12px;
   color:white;
   background:var(--purple);
+  font-weight:800;
   cursor:pointer;
 }
 
-button:hover{
-  filter:brightness(1.07);
-}
-
-button.green{
-  background:var(--green);
-}
-
-button.red{
-  background:var(--red);
-}
-
-button.blue{
-  background:var(--blue);
-}
-
-button.gray{
-  background:#777180;
-}
-
-button.light{
-  background:#e9e0fa;
-  color:#4c367e;
-}
-
-/* CONTROLS */
+button.green{background:var(--green)}
+button.red{background:var(--red)}
+button.blue{background:var(--blue)}
+button.gray{background:#77717d}
 
 .controls{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
   gap:12px;
-  margin-top:18px;
+  margin-top:15px;
 }
 
 .control{
-  padding:14px;
-  border:1px solid var(--border);
-  border-radius:14px;
   background:#faf8ff;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:13px;
 }
 
 .control label{
@@ -211,36 +128,28 @@ button.light{
 
 .control small{
   display:block;
-  margin-top:6px;
   color:var(--muted);
+  margin-top:6px;
 }
 
 input[type=range]{
   width:100%;
 }
 
-select,
-input[type=number]{
+select{
   width:100%;
   padding:10px;
+  border:1px solid var(--border);
   border-radius:9px;
-  border:1px solid #cfc4df;
-  background:white;
-  font-size:15px;
 }
-
-/* STATUS */
 
 .status{
   margin-top:15px;
-  background:var(--lavender);
-  border:1px solid #d5c4f6;
   padding:14px;
-  border-radius:13px;
-  font-weight:700;
+  background:var(--lav);
+  border-radius:12px;
+  font-weight:bold;
 }
-
-/* WORKSPACE */
 
 .workspace{
   display:grid;
@@ -249,30 +158,28 @@ input[type=number]{
 }
 
 @media(max-width:850px){
-  .workspace{
-    grid-template-columns:1fr;
-  }
+  .workspace{grid-template-columns:1fr}
 }
 
 .canvasWrap{
-  overflow:auto;
-  border-radius:16px;
   min-height:300px;
+  overflow:auto;
   padding:10px;
+  border-radius:14px;
 
-  background-color:#fff;
+  background-color:white;
   background-image:
-    linear-gradient(45deg,#ddd 25%,transparent 25%),
-    linear-gradient(-45deg,#ddd 25%,transparent 25%),
-    linear-gradient(45deg,transparent 75%,#ddd 75%),
-    linear-gradient(-45deg,transparent 75%,#ddd 75%);
+  linear-gradient(45deg,#ddd 25%,transparent 25%),
+  linear-gradient(-45deg,#ddd 25%,transparent 25%),
+  linear-gradient(45deg,transparent 75%,#ddd 75%),
+  linear-gradient(-45deg,transparent 75%,#ddd 75%);
 
   background-size:24px 24px;
   background-position:
-    0 0,
-    0 12px,
-    12px -12px,
-    -12px 0;
+  0 0,
+  0 12px,
+  12px -12px,
+  -12px 0;
 }
 
 canvas{
@@ -282,39 +189,32 @@ canvas{
   margin:auto;
 }
 
-/* RESULT HEADER */
-
-.resultHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
 .counter{
   display:inline-block;
-  padding:9px 15px;
-  background:#e5f7ef;
-  color:#176a4b;
+  padding:9px 14px;
   border-radius:999px;
+  background:#e4f7ed;
+  color:#176d4b;
   font-weight:900;
+  margin-right:6px;
 }
 
-/* CARDS */
+.rawCounter{
+  background:#eee7ff;
+  color:#5a3c96;
+}
 
 .results{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:15px;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:14px;
   margin-top:18px;
 }
 
 .card{
   border:2px solid var(--border);
-  border-radius:18px;
+  border-radius:16px;
   padding:10px;
-  background:#fff;
 }
 
 .card.deleted{
@@ -323,25 +223,22 @@ canvas{
 
 .preview{
   aspect-ratio:1;
-  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
+  border-radius:10px;
 
-  background-color:#fff;
+  background-color:white;
   background-image:
-    linear-gradient(45deg,#ddd 25%,transparent 25%),
-    linear-gradient(-45deg,#ddd 25%,transparent 25%),
-    linear-gradient(45deg,transparent 75%,#ddd 75%),
-    linear-gradient(-45deg,transparent 75%,#ddd 75%);
+  linear-gradient(45deg,#ddd 25%,transparent 25%),
+  linear-gradient(-45deg,#ddd 25%,transparent 25%),
+  linear-gradient(45deg,transparent 75%,#ddd 75%),
+  linear-gradient(-45deg,transparent 75%,#ddd 75%);
 
-  background-size:20px 20px;
+  background-size:18px 18px;
   background-position:
-    0 0,
-    0 10px,
-    10px -10px,
-    -10px 0;
+  0 0,0 9px,9px -9px,-9px 0;
 }
 
 .preview canvas{
@@ -349,49 +246,28 @@ canvas{
   max-height:100%;
 }
 
-.card h3{
-  margin:10px 0 4px;
-}
-
-.cardInfo{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:10px;
-}
-
 .cardButtons{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:7px;
+  gap:6px;
 }
 
 .cardButtons button{
-  padding:9px;
+  padding:8px;
   font-size:12px;
 }
-
-/* ADVANCED */
 
 details{
   margin-top:15px;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:12px;
   padding:12px;
 }
 
 summary{
+  font-weight:bold;
+  color:#553990;
   cursor:pointer;
-  font-weight:900;
-  color:#543a90;
-}
-
-/* FOOTER */
-
-.footer{
-  text-align:center;
-  color:#716780;
-  margin-top:25px;
-  font-size:13px;
 }
 </style>
 </head>
@@ -400,403 +276,350 @@ summary{
 
 <div class="app">
 
-  <div class="hero">
-    <h1>🌙 Moonlight PNG Studio</h1>
+<div class="hero">
+  <h1>🌙 Moonlight Smart PNG Splitter</h1>
 
-    <p>
-      Remove backgrounds, automatically find clipart pieces,
-      review them, upscale them and export transparent PNGs.
-      Everything runs directly in your browser.
-    </p>
-  </div>
+  <p>
+    Clean backgrounds → detect irregular artwork →
+    review pieces → upscale → export PNGs.
+  </p>
+</div>
 
-  <div class="workflow">
-    <div class="step active">1. Upload</div>
-    <div class="step">2. Remove BG</div>
-    <div class="step">3. Detect</div>
-    <div class="step">4. Review</div>
-    <div class="step">5. Upscale</div>
-    <div class="step">6. Download</div>
-  </div>
 
-  <!-- UPLOAD -->
+<!-- UPLOAD -->
 
-  <div class="panel">
+<div class="panel">
 
-    <h2>1. Upload Your Clipart Sheet</h2>
+<h2>1. Upload Clipart Sheet</h2>
 
-    <label class="upload" id="dropZone">
+<label class="upload" id="dropZone">
 
-      <strong>📁 Drop Image Here</strong>
+<strong>📁 Drop Image Here</strong>
 
-      <br><br>
+<br><br>
 
-      PNG • JPG • WEBP
+or tap to choose PNG / JPG / WEBP
 
-      <br><br>
+<input
+id="fileInput"
+type="file"
+accept="image/*"
+>
 
-      <span>or tap to choose a file</span>
+</label>
 
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/png,image/jpeg,image/webp"
-      >
+<div class="status" id="status">
+Waiting for an image.
+</div>
 
-    </label>
+</div>
 
-    <div class="status" id="status">
-      Waiting for an image.
-    </div>
 
-  </div>
+<!-- CLEAN -->
 
+<div class="panel">
 
-  <!-- BACKGROUND -->
+<h2>2. Smart Clean Background</h2>
 
-  <div class="panel">
+<p>
+For white/JPEG sheets, Smart Clean removes the outside
+background and faint JPEG residue that can connect separate pieces.
+</p>
 
-    <h2>2. Remove Background</h2>
+<div class="controls">
 
-    <p class="subtext">
-      Try Auto Remove first. If it removes the wrong color,
-      click the background directly on the image and run it again.
-    </p>
+<div class="control">
 
-    <div class="controls">
+<label>
+Background Strength:
+<span id="tolText">60</span>
+</label>
 
-      <div class="control">
+<input
+id="tolerance"
+type="range"
+min="10"
+max="160"
+value="60"
+>
 
-        <label>
-          Background Strength:
-          <span id="tolText">40</span>
-        </label>
+<small>
+Try 50–90 for white JPG backgrounds.
+</small>
 
-        <input
-          id="tolerance"
-          type="range"
-          min="5"
-          max="150"
-          value="40"
-        >
+</div>
 
-        <small>
-          Higher removes more similar colors.
-        </small>
 
-      </div>
+<div class="control">
 
-    </div>
+<label>
+JPEG Cleanup:
+<span id="cleanupText">35</span>
+</label>
 
-    <div class="actions">
+<input
+id="cleanup"
+type="range"
+min="0"
+max="100"
+value="35"
+>
 
-      <button id="removeButton">
-        🪄 Auto Remove Background
-      </button>
+<small>
+Removes faint nearly-transparent residue.
+</small>
 
-      <button
-        id="restoreButton"
-        class="gray"
-      >
-        ↩ Restore Original
-      </button>
+</div>
 
-    </div>
+</div>
 
-  </div>
 
+<div class="actions">
 
-  <!-- CANVASES -->
+<button id="smartClean">
+🪄 Smart Clean Background
+</button>
 
-  <div class="workspace">
+<button id="restore" class="gray">
+↩ Restore Original
+</button>
 
-    <div class="panel">
+</div>
 
-      <h2>Image</h2>
+</div>
 
-      <p class="subtext">
-        Click the background to manually sample its color.
-      </p>
 
-      <div class="canvasWrap">
-        <canvas id="mainCanvas"></canvas>
-      </div>
+<!-- PREVIEWS -->
 
-    </div>
+<div class="workspace">
 
+<div class="panel">
 
-    <div class="panel">
+<h2>Cleaned Image</h2>
 
-      <h2>Detection Preview</h2>
+<p>
+You can click the background to manually sample a color.
+</p>
 
-      <p class="subtext">
-        Detected pieces will be numbered here.
-      </p>
+<div class="canvasWrap">
+<canvas id="mainCanvas"></canvas>
+</div>
 
-      <div class="canvasWrap">
-        <canvas id="detectCanvas"></canvas>
-      </div>
+</div>
 
-    </div>
 
-  </div>
+<div class="panel">
 
+<h2>Detected Pieces</h2>
 
-  <!-- DETECTION -->
+<div class="canvasWrap">
+<canvas id="detectCanvas"></canvas>
+</div>
 
-  <div class="panel">
+</div>
 
-    <h2>3. Smart Detect Pieces</h2>
+</div>
 
-    <p class="subtext">
-      Finds irregular shapes instead of cutting the image into squares.
-      Nearby pieces can automatically be grouped together.
-    </p>
 
-    <div class="controls">
+<!-- DETECTION -->
 
-      <div class="control">
+<div class="panel">
 
-        <label>
-          Smart Group Distance:
-          <span id="groupText">25</span> px
-        </label>
+<h2>3. Detect Pieces</h2>
 
-        <input
-          id="groupDistance"
-          type="range"
-          min="0"
-          max="150"
-          value="25"
-        >
+<div>
 
-        <small>
-          Increase if decorations belonging to one design are separated.
-        </small>
+<span
+class="counter rawCounter"
+id="rawCount"
+>
+Raw objects: 0
+</span>
 
-      </div>
+<span
+class="counter"
+id="keptCount"
+>
+Kept: 0
+</span>
 
+</div>
 
-      <div class="control">
 
-        <label>
-          Ignore Tiny Pieces:
-          <span id="sizeText">0.08</span>%
-        </label>
+<div class="controls">
 
-        <input
-          id="minSize"
-          type="range"
-          min="1"
-          max="100"
-          value="8"
-        >
+<div class="control">
 
-        <small>
-          Increase to ignore sparkles and tiny artifacts.
-        </small>
+<label>
+Ignore Tiny Pieces:
+<span id="minText">0.03</span>%
+</label>
 
-      </div>
+<input
+id="minSize"
+type="range"
+min="1"
+max="100"
+value="3"
+>
 
+<small>
+Filters dust/JPEG artifacts.
+</small>
 
-      <div class="control">
+</div>
 
-        <label>
-          Transparent Padding:
-          <span id="padText">35</span> px
-        </label>
 
-        <input
-          id="padding"
-          type="range"
-          min="0"
-          max="200"
-          value="35"
-        >
+<div class="control">
 
-      </div>
+<label>
+Group Nearby:
+<span id="groupText">0</span> px
+</label>
 
-    </div>
+<input
+id="groupDistance"
+type="range"
+min="0"
+max="100"
+value="0"
+>
 
+<small>
+Leave at 0 first. Increase only when parts of ONE design need grouping.
+</small>
 
-    <details>
+</div>
 
-      <summary>
-        ⚙️ Advanced Settings
-      </summary>
 
-      <div class="controls">
+<div class="control">
 
-        <div class="control">
+<label>
+Transparent Padding:
+<span id="padText">30</span> px
+</label>
 
-          <label>
-            Alpha Threshold:
-            <span id="alphaText">25</span>
-          </label>
+<input
+id="padding"
+type="range"
+min="0"
+max="150"
+value="30"
+>
 
-          <input
-            id="alphaThreshold"
-            type="range"
-            min="1"
-            max="200"
-            value="25"
-          >
+</div>
 
-        </div>
+</div>
 
-      </div>
 
-    </details>
+<details>
 
+<summary>⚙️ Advanced Detection</summary>
 
-    <div class="actions">
+<div class="controls">
 
-      <button
-        id="detectButton"
-        class="green"
-      >
-        🔍 Detect Pieces
-      </button>
+<div class="control">
 
-    </div>
+<label>
+Alpha Threshold:
+<span id="alphaText">45</span>
+</label>
 
-  </div>
+<input
+id="alphaThreshold"
+type="range"
+min="1"
+max="200"
+value="45"
+>
 
+</div>
 
-  <!-- RESULTS -->
+</div>
 
-  <div class="panel">
+</details>
 
-    <div class="resultHeader">
 
-      <div>
+<div class="actions">
 
-        <h2 style="margin-bottom:4px;">
-          4. Review Pieces
-        </h2>
+<button
+id="detect"
+class="green"
+>
+🔍 Detect Pieces
+</button>
 
-        <span
-          class="counter"
-          id="pieceCount"
-        >
-          0 Pieces Found
-        </span>
+</div>
 
-      </div>
+</div>
 
 
-      <div class="actions">
+<!-- RESULTS -->
 
-        <button
-          id="keepAllButton"
-          class="green"
-        >
-          ✓ Keep All
-        </button>
+<div class="panel">
 
-        <button
-          id="deleteSmallButton"
-          class="red"
-        >
-          Remove Smallest
-        </button>
+<h2>4. Review Pieces</h2>
 
-      </div>
+<div id="results" class="results"></div>
 
-    </div>
+</div>
 
 
-    <div
-      id="results"
-      class="results"
-    ></div>
+<!-- UPSCALE -->
 
-  </div>
+<div class="panel">
 
+<h2>5. Export Size</h2>
 
-  <!-- UPSCALE -->
+<div class="controls">
 
-  <div class="panel">
+<div class="control">
 
-    <h2>5. Upscale Pieces</h2>
+<label>Upscale</label>
 
-    <p class="subtext">
-      Choose how large exported pieces should be.
-      Aspect ratio stays intact.
-    </p>
+<select id="scale">
 
-    <div class="controls">
+<option value="1">
+Original
+</option>
 
-      <div class="control">
+<option value="2">
+2×
+</option>
 
-        <label>Upscale</label>
+<option value="4">
+4×
+</option>
 
-        <select id="upscaleAmount">
-          <option value="1">Original Size</option>
-          <option value="2">2×</option>
-          <option value="4">4×</option>
-          <option value="5000">Fit Inside 5000 × 5000</option>
-        </select>
+<option value="5000">
+Fit inside 5000 × 5000
+</option>
 
-      </div>
+</select>
 
-    </div>
+</div>
 
-    <div class="actions">
+</div>
 
-      <button
-        id="applyUpscale"
-        class="blue"
-      >
-        ✨ Apply Upscale Setting
-      </button>
+<div class="actions">
 
-    </div>
+<button
+id="downloadAll"
+class="blue"
+>
+⬇ Download All Kept PNGs
+</button>
 
-    <div
-      class="status"
-      id="upscaleStatus"
-    >
-      Export size: Original.
-    </div>
+<button
+id="startOver"
+class="red"
+>
+🗑 Start Over
+</button>
 
-  </div>
+</div>
 
-
-  <!-- DOWNLOAD -->
-
-  <div class="panel">
-
-    <h2>6. Download</h2>
-
-    <p class="subtext">
-      Download individual transparent PNGs from the cards above.
-    </p>
-
-    <div class="actions">
-
-      <button
-        id="downloadAllButton"
-        class="green"
-      >
-        ⬇ Download All PNGs
-      </button>
-
-      <button
-        id="clearButton"
-        class="red"
-      >
-        🗑 Start Over
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="footer">
-    Moonlight Designs • Browser Processing Studio
-  </div>
+</div>
 
 </div>
 
@@ -804,7 +627,7 @@ summary{
 <script>
 
 /* =====================================================
-   ELEMENTS
+ELEMENTS
 ===================================================== */
 
 const fileInput =
@@ -818,14 +641,14 @@ document.getElementById("mainCanvas");
 
 const ctx =
 mainCanvas.getContext(
-  "2d",
-  {willReadFrequently:true}
+"2d",
+{willReadFrequently:true}
 );
 
 const detectCanvas =
 document.getElementById("detectCanvas");
 
-const detectCtx =
+const dctx =
 detectCanvas.getContext("2d");
 
 const statusBox =
@@ -834,11 +657,11 @@ document.getElementById("status");
 const results =
 document.getElementById("results");
 
-const pieceCount =
-document.getElementById("pieceCount");
-
 const tolerance =
 document.getElementById("tolerance");
+
+const cleanup =
+document.getElementById("cleanup");
 
 const minSize =
 document.getElementById("minSize");
@@ -852,9 +675,8 @@ document.getElementById("padding");
 const alphaThreshold =
 document.getElementById("alphaThreshold");
 
-const upscaleAmount =
-document.getElementById("upscaleAmount");
-
+const scaleSelect =
+document.getElementById("scale");
 
 let originalImageData = null;
 
@@ -862,1721 +684,1949 @@ let selectedBackground = null;
 
 let pieces = [];
 
-let exportScale = "1";
+let rawObjectCount = 0;
 
-let baseFileName = "clipart";
+let baseName = "clipart";
 
 
 /* =====================================================
-   SLIDERS
+SLIDERS
 ===================================================== */
 
-function connectSlider(id,label,formatter){
+function slider(id,text,format){
 
-  const slider =
-  document.getElementById(id);
+const input =
+document.getElementById(id);
 
-  const text =
-  document.getElementById(label);
+const output =
+document.getElementById(text);
 
-  slider.addEventListener(
-    "input",
-    () => {
+input.oninput = () => {
 
-      text.textContent =
-      formatter
-      ? formatter(slider.value)
-      : slider.value;
+output.textContent =
+format
+? format(input.value)
+: input.value;
 
-    }
-  );
+};
 
 }
 
-connectSlider(
-  "tolerance",
-  "tolText"
+slider(
+"tolerance",
+"tolText"
 );
 
-connectSlider(
-  "groupDistance",
-  "groupText"
+slider(
+"cleanup",
+"cleanupText"
 );
 
-connectSlider(
-  "padding",
-  "padText"
+slider(
+"groupDistance",
+"groupText"
 );
 
-connectSlider(
-  "alphaThreshold",
-  "alphaText"
+slider(
+"padding",
+"padText"
 );
 
-connectSlider(
-  "minSize",
-  "sizeText",
-  value =>
-  (Number(value)/100).toFixed(2)
+slider(
+"alphaThreshold",
+"alphaText"
+);
+
+slider(
+"minSize",
+"minText",
+v =>
+(Number(v)/100).toFixed(2)
 );
 
 
 /* =====================================================
-   WORKFLOW
+UPLOAD
 ===================================================== */
 
-function setStep(number){
+fileInput.onchange =
+event => {
 
-  document
-  .querySelectorAll(".step")
-  .forEach(
-    (step,index) => {
+const file =
+event.target.files[0];
 
-      step.classList.toggle(
-        "active",
-        index <= number - 1
-      );
-
-    }
-  );
-
+if(file){
+loadFile(file);
 }
 
-
-/* =====================================================
-   FILE UPLOAD
-===================================================== */
-
-fileInput.addEventListener(
-  "change",
-  event => {
-
-    const file =
-    event.target.files[0];
-
-    if(file){
-      loadFile(file);
-    }
-
-  }
-);
+};
 
 
-dropZone.addEventListener(
-  "dragover",
-  event => {
-
-    event.preventDefault();
-
-  }
-);
+dropZone.ondragover =
+event => {
+event.preventDefault();
+};
 
 
-dropZone.addEventListener(
-  "drop",
-  event => {
+dropZone.ondrop =
+event => {
 
-    event.preventDefault();
+event.preventDefault();
 
-    const file =
-    event.dataTransfer.files[0];
+const file =
+event.dataTransfer.files[0];
 
-    if(
-      file &&
-      file.type.startsWith("image/")
-    ){
-      loadFile(file);
-    }
+if(
+file &&
+file.type.startsWith("image/")
+){
+loadFile(file);
+}
 
-  }
-);
+};
 
 
 function loadFile(file){
 
-  baseFileName =
-  file.name
-  .replace(/\.[^/.]+$/,"")
-  .replace(/[^\w-]+/g,"_");
+baseName =
+file.name
+.replace(/\.[^/.]+$/,"")
+.replace(/[^\w-]+/g,"_");
 
-  const reader =
-  new FileReader();
+const reader =
+new FileReader();
 
-  reader.onload =
-  event => {
+reader.onload =
+event => {
 
-    const image =
-    new Image();
+const image =
+new Image();
 
-    image.onload =
-    () => {
+image.onload =
+() => {
 
-      mainCanvas.width =
-      image.naturalWidth;
+mainCanvas.width =
+image.naturalWidth;
 
-      mainCanvas.height =
-      image.naturalHeight;
+mainCanvas.height =
+image.naturalHeight;
 
-      detectCanvas.width =
-      image.naturalWidth;
+detectCanvas.width =
+image.naturalWidth;
 
-      detectCanvas.height =
-      image.naturalHeight;
+detectCanvas.height =
+image.naturalHeight;
 
-      ctx.clearRect(
-        0,
-        0,
-        mainCanvas.width,
-        mainCanvas.height
-      );
+ctx.clearRect(
+0,
+0,
+mainCanvas.width,
+mainCanvas.height
+);
 
-      ctx.drawImage(
-        image,
-        0,
-        0
-      );
+ctx.drawImage(
+image,
+0,
+0
+);
 
-      originalImageData =
-      ctx.getImageData(
-        0,
-        0,
-        mainCanvas.width,
-        mainCanvas.height
-      );
+originalImageData =
+ctx.getImageData(
+0,
+0,
+mainCanvas.width,
+mainCanvas.height
+);
 
-      selectedBackground = null;
+selectedBackground = null;
 
-      pieces = [];
+pieces = [];
 
-      results.innerHTML = "";
+rawObjectCount = 0;
 
-      updatePieceCount();
+results.innerHTML = "";
 
-      redrawDetection([]);
+updateCounts();
 
-      statusBox.textContent =
-      `Loaded ${image.naturalWidth} × ${image.naturalHeight}px`;
+redrawDetection();
 
-      setStep(1);
+statusBox.textContent =
+`Loaded ${image.naturalWidth} × ${image.naturalHeight}px.`;
 
-    };
+};
 
-    image.src =
-    event.target.result;
+image.src =
+event.target.result;
 
-  };
+};
 
-  reader.readAsDataURL(file);
+reader.readAsDataURL(file);
 
 }
 
 
 /* =====================================================
-   MANUAL BACKGROUND SAMPLE
+CLICK TO SAMPLE BACKGROUND
 ===================================================== */
 
-mainCanvas.addEventListener(
-  "click",
-  event => {
+mainCanvas.onclick =
+event => {
 
-    if(!mainCanvas.width){
-      return;
-    }
+if(!mainCanvas.width){
+return;
+}
 
-    const rect =
-    mainCanvas.getBoundingClientRect();
+const rect =
+mainCanvas.getBoundingClientRect();
 
-    const x =
-    Math.floor(
-      (event.clientX - rect.left)
-      *
-      mainCanvas.width /
-      rect.width
-    );
+const x =
+Math.floor(
+(event.clientX-rect.left)
+*
+mainCanvas.width
+/
+rect.width
+);
 
-    const y =
-    Math.floor(
-      (event.clientY - rect.top)
-      *
-      mainCanvas.height /
-      rect.height
-    );
+const y =
+Math.floor(
+(event.clientY-rect.top)
+*
+mainCanvas.height
+/
+rect.height
+);
 
-    const pixel =
-    ctx.getImageData(
-      x,
-      y,
-      1,
-      1
-    ).data;
+const pixel =
+ctx.getImageData(
+x,
+y,
+1,
+1
+).data;
 
-    selectedBackground = {
+selectedBackground = {
 
-      r:pixel[0],
-      g:pixel[1],
-      b:pixel[2]
+r:pixel[0],
+g:pixel[1],
+b:pixel[2]
 
-    };
+};
 
-    statusBox.textContent =
-    `Background selected: RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+statusBox.textContent =
+`Sampled RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]}).`;
 
-  }
+};
+
+
+/* =====================================================
+BACKGROUND SAMPLE
+
+Use many border samples instead of only four corners.
+This is much better for JPG sheets.
+===================================================== */
+
+function sampleBorderBackground(){
+
+const image =
+originalImageData;
+
+const data =
+image.data;
+
+const width =
+image.width;
+
+const height =
+image.height;
+
+const samples = [];
+
+const step =
+Math.max(
+1,
+Math.floor(
+Math.min(width,height)/50
+)
 );
 
 
-/* =====================================================
-   AUTO BACKGROUND
-===================================================== */
+/*
+Top / bottom
+*/
 
-function autoBackground(){
-
-  const image =
-  ctx.getImageData(
-    0,
-    0,
-    mainCanvas.width,
-    mainCanvas.height
-  );
-
-  const data =
-  image.data;
-
-  const points = [
-
-    [2,2],
-
-    [mainCanvas.width-3,2],
-
-    [2,mainCanvas.height-3],
-
-    [
-      mainCanvas.width-3,
-      mainCanvas.height-3
-    ]
-
-  ];
-
-  let r = 0;
-  let g = 0;
-  let b = 0;
-
-  for(
-    const [x,y]
-    of points
-  ){
-
-    const i =
-    (
-      y *
-      mainCanvas.width +
-      x
-    ) * 4;
-
-    r += data[i];
-    g += data[i+1];
-    b += data[i+2];
-
-  }
-
-  return {
-
-    r:Math.round(r/points.length),
-
-    g:Math.round(g/points.length),
-
-    b:Math.round(b/points.length)
-
-  };
-
-}
-
-
-/* =====================================================
-   BACKGROUND REMOVAL
-===================================================== */
-
-function colorDistance(
-  r,
-  g,
-  b,
-  target
+for(
+let x=0;
+x<width;
+x+=step
 ){
 
-  return Math.sqrt(
+samples.push(
+pixelAt(
+data,
+width,
+x,
+0
+)
+);
 
-    Math.pow(
-      r-target.r,
-      2
-    )
-
-    +
-
-    Math.pow(
-      g-target.g,
-      2
-    )
-
-    +
-
-    Math.pow(
-      b-target.b,
-      2
-    )
-
-  );
+samples.push(
+pixelAt(
+data,
+width,
+x,
+height-1
+)
+);
 
 }
 
 
-document
-.getElementById("removeButton")
-.addEventListener(
-  "click",
-  removeBackground
+/*
+Left / right
+*/
+
+for(
+let y=0;
+y<height;
+y+=step
+){
+
+samples.push(
+pixelAt(
+data,
+width,
+0,
+y
+)
+);
+
+samples.push(
+pixelAt(
+data,
+width,
+width-1,
+y
+)
+);
+
+}
+
+
+/*
+Median-ish average of bright border pixels.
+*/
+
+const bright =
+samples.filter(
+p =>
+p.r+p.g+p.b >
+500
 );
 
 
-function removeBackground(){
-
-  if(!originalImageData){
-
-    statusBox.textContent =
-    "Upload an image first.";
-
-    return;
-
-  }
-
-  /*
-  Always begin from original so
-  repeated attempts don't damage
-  the image further.
-  */
-
-  ctx.putImageData(
-    originalImageData,
-    0,
-    0
-  );
-
-  const target =
-  selectedBackground ||
-  autoBackground();
-
-  const image =
-  ctx.getImageData(
-    0,
-    0,
-    mainCanvas.width,
-    mainCanvas.height
-  );
-
-  const data =
-  image.data;
-
-  const strength =
-  Number(tolerance.value);
-
-  const feather = 25;
+const use =
+bright.length
+?
+bright
+:
+samples;
 
 
-  for(
-    let i=0;
-    i<data.length;
-    i+=4
-  ){
-
-    const distance =
-    colorDistance(
-      data[i],
-      data[i+1],
-      data[i+2],
-      target
-    );
+let r=0;
+let g=0;
+let b=0;
 
 
-    if(
-      distance <= strength
-    ){
+for(const p of use){
 
-      data[i+3] = 0;
+r += p.r;
+g += p.g;
+b += p.b;
 
-    }
-
-    else if(
-      distance <
-      strength + feather
-    ){
-
-      const ratio =
-      (
-        distance-strength
-      )
-      /
-      feather;
-
-      data[i+3] =
-      Math.round(
-        data[i+3] *
-        ratio
-      );
-
-    }
-
-  }
+}
 
 
-  ctx.putImageData(
-    image,
-    0,
-    0
-  );
+return {
 
-  redrawDetection([]);
+r:Math.round(r/use.length),
 
-  pieces = [];
+g:Math.round(g/use.length),
 
-  results.innerHTML = "";
+b:Math.round(b/use.length)
 
-  updatePieceCount();
+};
 
-  statusBox.textContent =
-  "Background removed. Check the preview, then Detect Pieces.";
+}
 
-  setStep(2);
+
+function pixelAt(
+data,
+width,
+x,
+y
+){
+
+const i =
+(y*width+x)*4;
+
+return {
+
+r:data[i],
+g:data[i+1],
+b:data[i+2]
+
+};
 
 }
 
 
 /* =====================================================
-   RESTORE ORIGINAL
+COLOR DISTANCE
 ===================================================== */
 
-document
-.getElementById("restoreButton")
-.addEventListener(
-  "click",
-  () => {
+function distance(
+r,
+g,
+b,
+target
+){
 
-    if(!originalImageData){
-      return;
-    }
+const dr =
+r-target.r;
 
-    ctx.putImageData(
-      originalImageData,
-      0,
-      0
-    );
+const dg =
+g-target.g;
 
-    selectedBackground = null;
+const db =
+b-target.b;
 
-    pieces = [];
-
-    results.innerHTML = "";
-
-    redrawDetection([]);
-
-    updatePieceCount();
-
-    statusBox.textContent =
-    "Original restored.";
-
-    setStep(1);
-
-  }
+return Math.sqrt(
+dr*dr +
+dg*dg +
+db*db
 );
+
+}
 
 
 /* =====================================================
-   CONNECTED COMPONENT DETECTION
+SMART CLEAN
+
+KEY DIFFERENCE:
+
+We flood-fill FROM THE OUTSIDE.
+
+This prevents white details inside artwork
+from being deleted simply because they're white.
 ===================================================== */
 
 document
-.getElementById("detectButton")
-.addEventListener(
-  "click",
-  detectPieces
+.getElementById("smartClean")
+.onclick =
+smartClean;
+
+
+function smartClean(){
+
+if(!originalImageData){
+
+statusBox.textContent =
+"Upload an image first.";
+
+return;
+
+}
+
+
+/*
+Restore original before each attempt.
+*/
+
+ctx.putImageData(
+originalImageData,
+0,
+0
 );
+
+
+const image =
+ctx.getImageData(
+0,
+0,
+mainCanvas.width,
+mainCanvas.height
+);
+
+const data =
+image.data;
+
+const width =
+image.width;
+
+const height =
+image.height;
+
+const total =
+width*height;
+
+
+const target =
+selectedBackground ||
+sampleBorderBackground();
+
+
+const strength =
+Number(tolerance.value);
+
+
+/*
+Background candidate mask.
+*/
+
+const candidate =
+new Uint8Array(total);
+
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+const p =
+i*4;
+
+const d =
+distance(
+data[p],
+data[p+1],
+data[p+2],
+target
+);
+
+
+if(
+d <= strength
+){
+
+candidate[i]=1;
+
+}
+
+}
+
+
+/*
+Flood fill only background connected
+to the outside edge.
+*/
+
+const background =
+new Uint8Array(total);
+
+const queue = [];
+
+let head = 0;
+
+
+function add(index){
+
+if(
+index<0 ||
+index>=total ||
+background[index] ||
+!candidate[index]
+){
+return;
+}
+
+background[index]=1;
+
+queue.push(index);
+
+}
+
+
+/*
+Add top/bottom edges.
+*/
+
+for(
+let x=0;
+x<width;
+x++
+){
+
+add(x);
+
+add(
+(height-1)*width+x
+);
+
+}
+
+
+/*
+Add left/right edges.
+*/
+
+for(
+let y=0;
+y<height;
+y++
+){
+
+add(
+y*width
+);
+
+add(
+y*width +
+width-1
+);
+
+}
+
+
+while(
+head <
+queue.length
+){
+
+const current =
+queue[head++];
+
+const y =
+Math.floor(
+current/width
+);
+
+const x =
+current-y*width;
+
+
+if(x>0){
+add(current-1);
+}
+
+if(x<width-1){
+add(current+1);
+}
+
+if(y>0){
+add(current-width);
+}
+
+if(y<height-1){
+add(current+width);
+}
+
+}
+
+
+/*
+Make flooded background transparent.
+*/
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+if(
+background[i]
+){
+
+data[
+i*4+3
+]=0;
+
+}
+
+}
+
+
+/*
+JPEG RESIDUE CLEANUP
+
+After flood removal, faint near-background
+pixels around the artwork may remain.
+
+Fade those rather than allowing them to
+become bridges.
+*/
+
+const cleanStrength =
+Number(cleanup.value);
+
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+const p =
+i*4;
+
+if(
+data[p+3]===0
+){
+continue;
+}
+
+
+const d =
+distance(
+data[p],
+data[p+1],
+data[p+2],
+target
+);
+
+
+const fadeStart =
+strength;
+
+
+const fadeEnd =
+strength +
+cleanStrength;
+
+
+if(
+cleanStrength>0 &&
+d < fadeEnd
+){
+
+const ratio =
+Math.max(
+0,
+Math.min(
+1,
+(d-fadeStart)
+/
+Math.max(
+1,
+cleanStrength
+)
+)
+);
+
+
+data[p+3] =
+Math.round(
+data[p+3] *
+ratio
+);
+
+}
+
+}
+
+
+ctx.putImageData(
+image,
+0,
+0
+);
+
+
+pieces=[];
+
+rawObjectCount=0;
+
+results.innerHTML="";
+
+redrawDetection();
+
+updateCounts();
+
+statusBox.textContent =
+"Smart Clean complete. Transparent checkerboard should now appear between separate designs.";
+
+}
+
+
+/* =====================================================
+RESTORE
+===================================================== */
+
+document
+.getElementById("restore")
+.onclick =
+() => {
+
+if(!originalImageData){
+return;
+}
+
+ctx.putImageData(
+originalImageData,
+0,
+0
+);
+
+selectedBackground=null;
+
+pieces=[];
+
+rawObjectCount=0;
+
+results.innerHTML="";
+
+redrawDetection();
+
+updateCounts();
+
+statusBox.textContent =
+"Original restored.";
+
+};
+
+
+/* =====================================================
+DETECT
+===================================================== */
+
+document
+.getElementById("detect")
+.onclick =
+detectPieces;
 
 
 function detectPieces(){
 
-  if(!mainCanvas.width){
+if(!mainCanvas.width){
+return;
+}
 
-    statusBox.textContent =
-    "Upload an image first.";
 
-    return;
+const width =
+mainCanvas.width;
 
-  }
+const height =
+mainCanvas.height;
 
-  const width =
-  mainCanvas.width;
+const image =
+ctx.getImageData(
+0,
+0,
+width,
+height
+);
 
-  const height =
-  mainCanvas.height;
+const data =
+image.data;
 
-  const image =
-  ctx.getImageData(
-    0,
-    0,
-    width,
-    height
-  );
+const total =
+width*height;
 
-  const data =
-  image.data;
+const visited =
+new Uint8Array(total);
 
-  const total =
-  width * height;
+const threshold =
+Number(alphaThreshold.value);
 
-  const visited =
-  new Uint8Array(total);
 
-  const alpha =
-  Number(
-    alphaThreshold.value
-  );
+/*
+IMPORTANT:
 
-  const minimum =
-  total *
-  (
-    Number(minSize.value)
-    /
-    10000
-  );
+This threshold filters faint transparent
+JPEG residue during detection.
+*/
 
+function visible(index){
 
-  const directions = [
-
-    [-1,-1],
-    [0,-1],
-    [1,-1],
-
-    [-1,0],
-    [1,0],
-
-    [-1,1],
-    [0,1],
-    [1,1]
-
-  ];
-
-
-  function visible(index){
-
-    return (
-      data[
-        index*4+3
-      ]
-      >
-      alpha
-    );
-
-  }
-
-
-  let components = [];
-
-
-  for(
-    let y=0;
-    y<height;
-    y++
-  ){
-
-    for(
-      let x=0;
-      x<width;
-      x++
-    ){
-
-      const start =
-      y*width+x;
-
-      if(
-        visited[start] ||
-        !visible(start)
-      ){
-        continue;
-      }
-
-
-      const queue =
-      [start];
-
-      visited[start] = 1;
-
-      let pointer = 0;
-
-      let minX=x;
-      let maxX=x;
-
-      let minY=y;
-      let maxY=y;
-
-      let count=0;
-
-
-      while(
-        pointer <
-        queue.length
-      ){
-
-        const current =
-        queue[pointer++];
-
-        const cy =
-        Math.floor(
-          current/width
-        );
-
-        const cx =
-        current -
-        cy*width;
-
-        count++;
-
-        minX =
-        Math.min(minX,cx);
-
-        maxX =
-        Math.max(maxX,cx);
-
-        minY =
-        Math.min(minY,cy);
-
-        maxY =
-        Math.max(maxY,cy);
-
-
-        for(
-          const [dx,dy]
-          of directions
-        ){
-
-          const nx =
-          cx+dx;
-
-          const ny =
-          cy+dy;
-
-          if(
-            nx<0 ||
-            ny<0 ||
-            nx>=width ||
-            ny>=height
-          ){
-            continue;
-          }
-
-          const index =
-          ny*width+nx;
-
-          if(
-            !visited[index] &&
-            visible(index)
-          ){
-
-            visited[index]=1;
-
-            queue.push(index);
-
-          }
-
-        }
-
-      }
-
-
-      if(
-        count >= minimum
-      ){
-
-        components.push({
-
-          minX,
-          minY,
-          maxX,
-          maxY,
-          pixels:count,
-          deleted:false
-
-        });
-
-      }
-
-    }
-
-  }
-
-
-  /*
-  Smart proximity grouping
-  */
-
-  components =
-  mergeNearby(
-    components,
-    Number(groupDistance.value)
-  );
-
-
-  components.sort(
-    (a,b) =>
-    b.pixels -
-    a.pixels
-  );
-
-
-  pieces =
-  components;
-
-
-  redrawDetection(
-    pieces
-  );
-
-  renderPieces();
-
-  updatePieceCount();
-
-  statusBox.textContent =
-  `${pieces.length} potential pieces detected.`;
-
-  setStep(4);
+return (
+data[
+index*4+3
+]
+>=
+threshold
+);
 
 }
 
 
-/* =====================================================
-   SMART GROUPING
-===================================================== */
+const dirs = [
 
-function boxDistance(a,b){
+[-1,-1],
+[0,-1],
+[1,-1],
 
-  const horizontal =
+[-1,0],
+[1,0],
 
-  Math.max(
+[-1,1],
+[0,1],
+[1,1]
 
-    0,
-
-    Math.max(
-      a.minX,
-      b.minX
-    )
-
-    -
-
-    Math.min(
-      a.maxX,
-      b.maxX
-    )
-
-  );
+];
 
 
-  const vertical =
-
-  Math.max(
-
-    0,
-
-    Math.max(
-      a.minY,
-      b.minY
-    )
-
-    -
-
-    Math.min(
-      a.maxY,
-      b.maxY
-    )
-
-  );
+let components = [];
 
 
-  return Math.sqrt(
-    horizontal*horizontal +
-    vertical*vertical
-  );
-
-}
-
-
-function mergeNearby(
-  input,
-  distance
+for(
+let y=0;
+y<height;
+y++
 ){
 
-  let list =
-  input.map(
-    item => ({...item})
-  );
+for(
+let x=0;
+x<width;
+x++
+){
 
-  let changed = true;
+const start =
+y*width+x;
 
-
-  while(changed){
-
-    changed = false;
-
-
-    outer:
-
-    for(
-      let i=0;
-      i<list.length;
-      i++
-    ){
-
-      for(
-        let j=i+1;
-        j<list.length;
-        j++
-      ){
-
-        if(
-          boxDistance(
-            list[i],
-            list[j]
-          )
-          <=
-          distance
-        ){
-
-          list[i] = {
-
-            minX:
-            Math.min(
-              list[i].minX,
-              list[j].minX
-            ),
-
-            minY:
-            Math.min(
-              list[i].minY,
-              list[j].minY
-            ),
-
-            maxX:
-            Math.max(
-              list[i].maxX,
-              list[j].maxX
-            ),
-
-            maxY:
-            Math.max(
-              list[i].maxY,
-              list[j].maxY
-            ),
-
-            pixels:
-            list[i].pixels +
-            list[j].pixels,
-
-            deleted:false
-
-          };
+if(
+visited[start] ||
+!visible(start)
+){
+continue;
+}
 
 
-          list.splice(
-            j,
-            1
-          );
+visited[start]=1;
 
-          changed = true;
+const queue =
+[start];
 
-          break outer;
+let head=0;
 
-        }
+let minX=x;
+let maxX=x;
 
-      }
+let minY=y;
+let maxY=y;
 
-    }
-
-  }
+let count=0;
 
 
-  return list;
+while(
+head <
+queue.length
+){
+
+const current =
+queue[head++];
+
+const cy =
+Math.floor(
+current/width
+);
+
+const cx =
+current-cy*width;
+
+count++;
+
+minX =
+Math.min(
+minX,
+cx
+);
+
+maxX =
+Math.max(
+maxX,
+cx
+);
+
+minY =
+Math.min(
+minY,
+cy
+);
+
+maxY =
+Math.max(
+maxY,
+cy
+);
+
+
+for(
+const [dx,dy]
+of dirs
+){
+
+const nx =
+cx+dx;
+
+const ny =
+cy+dy;
+
+
+if(
+nx<0 ||
+ny<0 ||
+nx>=width ||
+ny>=height
+){
+continue;
+}
+
+
+const ni =
+ny*width+nx;
+
+
+if(
+visited[ni]
+){
+continue;
+}
+
+
+if(
+visible(ni)
+){
+
+visited[ni]=1;
+
+queue.push(ni);
+
+}
+
+}
+
+}
+
+
+components.push({
+
+minX,
+minY,
+maxX,
+maxY,
+
+pixels:count,
+
+deleted:false
+
+});
+
+}
+
+}
+
+
+/*
+THIS NUMBER IS IMPORTANT.
+
+It shows what the detector sees BEFORE
+we filter or group anything.
+*/
+
+rawObjectCount =
+components.length;
+
+
+/*
+Remove tiny artifacts AFTER counting raw objects.
+*/
+
+const minimumPixels =
+
+total *
+(
+Number(minSize.value)
+/
+10000
+);
+
+
+components =
+components.filter(
+piece =>
+piece.pixels >=
+minimumPixels
+);
+
+
+/*
+Optional grouping.
+
+Default = ZERO.
+*/
+
+const group =
+Number(
+groupDistance.value
+);
+
+
+if(group>0){
+
+components =
+mergeNearby(
+components,
+group
+);
+
+}
+
+
+/*
+Sort roughly top-to-bottom then left-to-right.
+
+This makes numbering easier to understand
+than sorting by size.
+*/
+
+components.sort(
+(a,b) => {
+
+const rowTolerance =
+Math.max(
+30,
+height*.04
+);
+
+
+if(
+Math.abs(
+a.minY-b.minY
+)
+<
+rowTolerance
+){
+
+return (
+a.minX-b.minX
+);
+
+}
+
+
+return (
+a.minY-b.minY
+);
+
+}
+);
+
+
+pieces =
+components;
+
+
+redrawDetection();
+
+renderPieces();
+
+updateCounts();
+
+
+statusBox.textContent =
+`Detector found ${rawObjectCount} raw objects and kept ${pieces.length} after filtering.`;
 
 }
 
 
 /* =====================================================
-   DETECTION PREVIEW
+BOX DISTANCE
 ===================================================== */
 
-function redrawDetection(list){
+function boxDistance(
+a,
+b
+){
 
-  detectCtx.clearRect(
-    0,
-    0,
-    detectCanvas.width,
-    detectCanvas.height
-  );
+const dx =
 
-  if(
-    mainCanvas.width &&
-    mainCanvas.height
-  ){
+Math.max(
 
-    detectCtx.drawImage(
-      mainCanvas,
-      0,
-      0
-    );
+0,
 
-  }
+Math.max(
+a.minX,
+b.minX
+)
 
+-
 
-  list.forEach(
-    (piece,index) => {
+Math.min(
+a.maxX,
+b.maxX
+)
 
-      if(piece.deleted){
-        return;
-      }
-
-      detectCtx.lineWidth =
-      Math.max(
-        3,
-        mainCanvas.width/700
-      );
-
-      detectCtx.strokeStyle =
-      "#00b66f";
-
-      detectCtx.strokeRect(
-
-        piece.minX,
-        piece.minY,
-
-        piece.maxX -
-        piece.minX,
-
-        piece.maxY -
-        piece.minY
-
-      );
+);
 
 
-      detectCtx.fillStyle =
-      "#00a765";
+const dy =
 
-      detectCtx.font =
-      `${Math.max(
-        20,
-        mainCanvas.width/60
-      )}px Arial`;
+Math.max(
 
-      detectCtx.fillText(
+0,
 
-        String(index+1),
+Math.max(
+a.minY,
+b.minY
+)
 
-        piece.minX+7,
-        piece.minY+25
+-
 
-      );
+Math.min(
+a.maxY,
+b.maxY
+)
 
-    }
-  );
+);
+
+
+return Math.sqrt(
+dx*dx +
+dy*dy
+);
 
 }
 
 
 /* =====================================================
-   CREATE CROPPED PIECE
+GROUPING
 ===================================================== */
 
-function createPieceCanvas(piece){
+function mergeNearby(
+input,
+distance
+){
 
-  const pad =
-  Number(padding.value);
+let list =
+input.map(
+x => ({...x})
+);
 
-  const x =
-  Math.max(
-    0,
-    piece.minX-pad
-  );
-
-  const y =
-  Math.max(
-    0,
-    piece.minY-pad
-  );
-
-  const right =
-  Math.min(
-    mainCanvas.width,
-    piece.maxX+pad+1
-  );
-
-  const bottom =
-  Math.min(
-    mainCanvas.height,
-    piece.maxY+pad+1
-  );
-
-  const width =
-  right-x;
-
-  const height =
-  bottom-y;
+let changed=true;
 
 
-  const temp =
-  document.createElement(
-    "canvas"
-  );
+while(changed){
 
-  temp.width =
-  width;
-
-  temp.height =
-  height;
-
-  const tctx =
-  temp.getContext("2d");
+changed=false;
 
 
-  tctx.drawImage(
+outer:
 
-    mainCanvas,
+for(
+let i=0;
+i<list.length;
+i++
+){
 
-    x,
-    y,
-    width,
-    height,
+for(
+let j=i+1;
+j<list.length;
+j++
+){
 
-    0,
-    0,
-    width,
-    height
+if(
+boxDistance(
+list[i],
+list[j]
+)
+<=
+distance
+){
 
-  );
+list[i] = {
+
+minX:
+Math.min(
+list[i].minX,
+list[j].minX
+),
+
+minY:
+Math.min(
+list[i].minY,
+list[j].minY
+),
+
+maxX:
+Math.max(
+list[i].maxX,
+list[j].maxX
+),
+
+maxY:
+Math.max(
+list[i].maxY,
+list[j].maxY
+),
+
+pixels:
+list[i].pixels +
+list[j].pixels,
+
+deleted:false
+
+};
 
 
-  return temp;
+list.splice(
+j,
+1
+);
+
+changed=true;
+
+break outer;
+
+}
+
+}
+
+}
+
+}
+
+
+return list;
 
 }
 
 
 /* =====================================================
-   PIECE CARDS
+DRAW DETECTION
+===================================================== */
+
+function redrawDetection(){
+
+dctx.clearRect(
+0,
+0,
+detectCanvas.width,
+detectCanvas.height
+);
+
+
+if(
+mainCanvas.width
+){
+
+dctx.drawImage(
+mainCanvas,
+0,
+0
+);
+
+}
+
+
+pieces.forEach(
+(piece,index) => {
+
+if(piece.deleted){
+return;
+}
+
+
+const w =
+piece.maxX -
+piece.minX +
+1;
+
+const h =
+piece.maxY -
+piece.minY +
+1;
+
+
+dctx.strokeStyle =
+"#00b86b";
+
+dctx.lineWidth =
+Math.max(
+3,
+mainCanvas.width/700
+);
+
+dctx.strokeRect(
+piece.minX,
+piece.minY,
+w,
+h
+);
+
+
+const fontSize =
+Math.max(
+18,
+mainCanvas.width/65
+);
+
+
+dctx.font =
+`bold ${fontSize}px Arial`;
+
+dctx.fillStyle =
+"#00a55f";
+
+
+dctx.fillText(
+String(index+1),
+piece.minX+5,
+piece.minY+fontSize
+);
+
+});
+
+}
+
+
+/* =====================================================
+CROP
+===================================================== */
+
+function cropPiece(piece){
+
+const pad =
+Number(padding.value);
+
+const x =
+Math.max(
+0,
+piece.minX-pad
+);
+
+const y =
+Math.max(
+0,
+piece.minY-pad
+);
+
+const right =
+Math.min(
+mainCanvas.width,
+piece.maxX+pad+1
+);
+
+const bottom =
+Math.min(
+mainCanvas.height,
+piece.maxY+pad+1
+);
+
+const width =
+right-x;
+
+const height =
+bottom-y;
+
+
+const output =
+document.createElement(
+"canvas"
+);
+
+output.width =
+width;
+
+output.height =
+height;
+
+
+output
+.getContext("2d")
+.drawImage(
+
+mainCanvas,
+
+x,
+y,
+width,
+height,
+
+0,
+0,
+width,
+height
+
+);
+
+
+return output;
+
+}
+
+
+/* =====================================================
+RESULT CARDS
 ===================================================== */
 
 function renderPieces(){
 
-  results.innerHTML = "";
+results.innerHTML="";
 
 
-  pieces.forEach(
-    (piece,index) => {
+pieces.forEach(
+(piece,index) => {
 
-      const card =
-      document.createElement(
-        "div"
-      );
+const card =
+document.createElement(
+"div"
+);
 
-      card.className =
-      "card";
-
-      if(piece.deleted){
-        card.classList.add(
-          "deleted"
-        );
-      }
+card.className =
+"card";
 
 
-      const preview =
-      document.createElement(
-        "div"
-      );
-
-      preview.className =
-      "preview";
+if(piece.deleted){
+card.classList.add(
+"deleted"
+);
+}
 
 
-      const temp =
-      createPieceCanvas(
-        piece
-      );
+const preview =
+document.createElement(
+"div"
+);
 
-      preview.appendChild(
-        temp
-      );
-
-
-      const title =
-      document.createElement(
-        "h3"
-      );
-
-      title.textContent =
-      `Piece ${index+1}`;
+preview.className =
+"preview";
 
 
-      const info =
-      document.createElement(
-        "div"
-      );
+const canvas =
+cropPiece(piece);
 
-      info.className =
-      "cardInfo";
-
-      info.textContent =
-      `${temp.width} × ${temp.height}px`;
+preview.appendChild(
+canvas
+);
 
 
-      const buttons =
-      document.createElement(
-        "div"
-      );
+const title =
+document.createElement(
+"h3"
+);
 
-      buttons.className =
-      "cardButtons";
-
-
-      const keep =
-      document.createElement(
-        "button"
-      );
-
-      keep.className =
-      "green";
-
-      keep.textContent =
-      "✓ Keep";
-
-      keep.onclick =
-      () => {
-
-        piece.deleted=false;
-
-        renderPieces();
-
-        redrawDetection(
-          pieces
-        );
-
-        updatePieceCount();
-
-      };
+title.textContent =
+`Piece ${index+1}`;
 
 
-      const remove =
-      document.createElement(
-        "button"
-      );
+const info =
+document.createElement(
+"p"
+);
 
-      remove.className =
-      "red";
-
-      remove.textContent =
-      "✕ Delete";
-
-      remove.onclick =
-      () => {
-
-        piece.deleted=true;
-
-        renderPieces();
-
-        redrawDetection(
-          pieces
-        );
-
-        updatePieceCount();
-
-      };
+info.textContent =
+`${canvas.width} × ${canvas.height}px`;
 
 
-      const download =
-      document.createElement(
-        "button"
-      );
+const buttons =
+document.createElement(
+"div"
+);
 
-      download.className =
-      "blue";
-
-      download.textContent =
-      "⬇ PNG";
-
-      download.onclick =
-      () => {
-
-        downloadPiece(
-          piece,
-          index
-        );
-
-      };
+buttons.className =
+"cardButtons";
 
 
-      buttons.appendChild(
-        keep
-      );
+const keep =
+document.createElement(
+"button"
+);
 
-      buttons.appendChild(
-        remove
-      );
+keep.className =
+"green";
 
-      buttons.appendChild(
-        download
-      );
+keep.textContent =
+"✓ Keep";
 
+keep.onclick =
+() => {
 
-      card.appendChild(
-        preview
-      );
+piece.deleted=false;
 
-      card.appendChild(
-        title
-      );
+renderPieces();
 
-      card.appendChild(
-        info
-      );
+redrawDetection();
 
-      card.appendChild(
-        buttons
-      );
+updateCounts();
+
+};
 
 
-      results.appendChild(
-        card
-      );
+const remove =
+document.createElement(
+"button"
+);
 
-    }
-  );
+remove.className =
+"red";
+
+remove.textContent =
+"✕ Delete";
+
+remove.onclick =
+() => {
+
+piece.deleted=true;
+
+renderPieces();
+
+redrawDetection();
+
+updateCounts();
+
+};
+
+
+const download =
+document.createElement(
+"button"
+);
+
+download.className =
+"blue";
+
+download.textContent =
+"⬇ PNG";
+
+download.onclick =
+() => {
+
+downloadPiece(
+piece,
+index
+);
+
+};
+
+
+buttons.append(
+keep,
+remove,
+download
+);
+
+
+card.append(
+preview,
+title,
+info,
+buttons
+);
+
+
+results.appendChild(
+card
+);
+
+});
 
 }
 
 
 /* =====================================================
-   PIECE COUNT
+COUNTS
 ===================================================== */
 
-function updatePieceCount(){
+function updateCounts(){
 
-  const active =
-  pieces.filter(
-    piece =>
-    !piece.deleted
-  ).length;
+document
+.getElementById(
+"rawCount"
+)
+.textContent =
+`Raw objects: ${rawObjectCount}`;
 
-  pieceCount.textContent =
-  `${active} Piece${active===1?"":"s"} Kept`;
+
+const kept =
+pieces.filter(
+x =>
+!x.deleted
+).length;
+
+
+document
+.getElementById(
+"keptCount"
+)
+.textContent =
+`Kept: ${kept}`;
 
 }
 
 
 /* =====================================================
-   KEEP ALL
+UPSCALE
 ===================================================== */
 
-document
-.getElementById("keepAllButton")
-.addEventListener(
-  "click",
-  () => {
+function upscale(source){
 
-    pieces.forEach(
-      piece =>
-      piece.deleted=false
-    );
+const mode =
+scaleSelect.value;
 
-    renderPieces();
 
-    redrawDetection(
-      pieces
-    );
+if(mode==="1"){
+return source;
+}
 
-    updatePieceCount();
 
-  }
+let width;
+let height;
+
+
+if(mode==="5000"){
+
+const ratio =
+Math.min(
+5000/source.width,
+5000/source.height
+);
+
+width =
+Math.round(
+source.width*ratio
+);
+
+height =
+Math.round(
+source.height*ratio
+);
+
+}
+
+else{
+
+const multiplier =
+Number(mode);
+
+width =
+source.width *
+multiplier;
+
+height =
+source.height *
+multiplier;
+
+}
+
+
+/*
+Safety cap.
+*/
+
+const max =
+10000;
+
+
+if(
+width>max ||
+height>max
+){
+
+const ratio =
+Math.min(
+max/width,
+max/height
+);
+
+width =
+Math.round(
+width*ratio
+);
+
+height =
+Math.round(
+height*ratio
+);
+
+}
+
+
+const output =
+document.createElement(
+"canvas"
+);
+
+output.width =
+width;
+
+output.height =
+height;
+
+
+const octx =
+output.getContext("2d");
+
+octx.imageSmoothingEnabled =
+true;
+
+octx.imageSmoothingQuality =
+"high";
+
+
+octx.drawImage(
+source,
+0,
+0,
+width,
+height
 );
 
 
-/* =====================================================
-   REMOVE SMALLEST
-===================================================== */
-
-document
-.getElementById("deleteSmallButton")
-.addEventListener(
-  "click",
-  () => {
-
-    const active =
-    pieces.filter(
-      piece =>
-      !piece.deleted
-    );
-
-    if(!active.length){
-      return;
-    }
-
-    const smallest =
-    active.reduce(
-      (a,b) =>
-      a.pixels <
-      b.pixels
-      ? a
-      : b
-    );
-
-    smallest.deleted=true;
-
-    renderPieces();
-
-    redrawDetection(
-      pieces
-    );
-
-    updatePieceCount();
-
-  }
-);
-
-
-/* =====================================================
-   UPSCALE
-===================================================== */
-
-document
-.getElementById("applyUpscale")
-.addEventListener(
-  "click",
-  () => {
-
-    exportScale =
-    upscaleAmount.value;
-
-    if(
-      exportScale==="5000"
-    ){
-
-      document
-      .getElementById(
-        "upscaleStatus"
-      )
-      .textContent =
-      "Export will fit each piece inside 5000 × 5000 while preserving proportions.";
-
-    }
-
-    else if(
-      exportScale==="1"
-    ){
-
-      document
-      .getElementById(
-        "upscaleStatus"
-      )
-      .textContent =
-      "Export size: Original.";
-
-    }
-
-    else{
-
-      document
-      .getElementById(
-        "upscaleStatus"
-      )
-      .textContent =
-      `Export size: ${exportScale}× original.`;
-
-    }
-
-    setStep(5);
-
-  }
-);
-
-
-function upscaleCanvas(source){
-
-  if(exportScale==="1"){
-    return source;
-  }
-
-
-  let width;
-  let height;
-
-
-  if(exportScale==="5000"){
-
-    const ratio =
-    Math.min(
-      5000/source.width,
-      5000/source.height
-    );
-
-    width =
-    Math.round(
-      source.width*ratio
-    );
-
-    height =
-    Math.round(
-      source.height*ratio
-    );
-
-  }
-
-  else{
-
-    const scale =
-    Number(exportScale);
-
-    width =
-    source.width*scale;
-
-    height =
-    source.height*scale;
-
-  }
-
-
-  /*
-  Browser safety cap.
-  */
-
-  const max =
-  10000;
-
-  if(
-    width>max ||
-    height>max
-  ){
-
-    const ratio =
-    Math.min(
-      max/width,
-      max/height
-    );
-
-    width =
-    Math.round(
-      width*ratio
-    );
-
-    height =
-    Math.round(
-      height*ratio
-    );
-
-  }
-
-
-  const output =
-  document.createElement(
-    "canvas"
-  );
-
-  output.width =
-  width;
-
-  output.height =
-  height;
-
-  const outputCtx =
-  output.getContext("2d");
-
-  outputCtx.imageSmoothingEnabled =
-  true;
-
-  outputCtx.imageSmoothingQuality =
-  "high";
-
-  outputCtx.drawImage(
-    source,
-    0,
-    0,
-    width,
-    height
-  );
-
-  return output;
+return output;
 
 }
 
 
 /* =====================================================
-   DOWNLOAD
+DOWNLOAD ONE
 ===================================================== */
 
 function downloadPiece(
-  piece,
-  index
+piece,
+index
 ){
 
-  const source =
-  createPieceCanvas(
-    piece
-  );
+const crop =
+cropPiece(piece);
 
-  const output =
-  upscaleCanvas(
-    source
-  );
+const output =
+upscale(crop);
 
-  output.toBlob(
-    blob => {
 
-      const url =
-      URL.createObjectURL(
-        blob
-      );
+output.toBlob(
+blob => {
 
-      const link =
-      document.createElement(
-        "a"
-      );
+const url =
+URL.createObjectURL(
+blob
+);
 
-      link.href =
-      url;
+const link =
+document.createElement(
+"a"
+);
 
-      link.download =
-      `${baseFileName}_piece_${String(index+1).padStart(2,"0")}.png`;
+link.href =
+url;
 
-      document.body.appendChild(
-        link
-      );
+link.download =
+`${baseName}_piece_${String(index+1).padStart(2,"0")}.png`;
 
-      link.click();
+document.body.appendChild(
+link
+);
 
-      link.remove();
+link.click();
 
-      setTimeout(
-        () =>
-        URL.revokeObjectURL(url),
-        1000
-      );
+link.remove();
 
-    },
-    "image/png"
-  );
+
+setTimeout(
+() =>
+URL.revokeObjectURL(url),
+1000
+);
+
+},
+"image/png"
+);
 
 }
 
 
 /* =====================================================
-   DOWNLOAD ALL
-
-   Browsers may ask permission for
-   multiple downloads.
+DOWNLOAD ALL
 ===================================================== */
 
 document
-.getElementById("downloadAllButton")
-.addEventListener(
-  "click",
-  async () => {
+.getElementById(
+"downloadAll"
+)
+.onclick =
+async () => {
 
-    const active =
-    pieces
-    .map(
-      (piece,index) =>
-      ({piece,index})
-    )
-    .filter(
-      item =>
-      !item.piece.deleted
-    );
-
-
-    if(!active.length){
-
-      statusBox.textContent =
-      "No pieces selected.";
-
-      return;
-
-    }
-
-
-    statusBox.textContent =
-    `Downloading ${active.length} PNG files...`;
-
-
-    for(
-      let i=0;
-      i<active.length;
-      i++
-    ){
-
-      const item =
-      active[i];
-
-      downloadPiece(
-        item.piece,
-        item.index
-      );
-
-      /*
-      Small delay helps browsers
-      handle multiple downloads.
-      */
-
-      await new Promise(
-        resolve =>
-        setTimeout(
-          resolve,
-          350
-        )
-      );
-
-    }
-
-
-    setStep(6);
-
-  }
+const active =
+pieces
+.map(
+(piece,index) =>
+({piece,index})
+)
+.filter(
+x =>
+!x.piece.deleted
 );
+
+
+if(!active.length){
+
+statusBox.textContent =
+"No kept pieces to download.";
+
+return;
+
+}
+
+
+for(
+const item
+of active
+){
+
+downloadPiece(
+item.piece,
+item.index
+);
+
+await new Promise(
+resolve =>
+setTimeout(
+resolve,
+350
+)
+);
+
+}
+
+};
 
 
 /* =====================================================
-   START OVER
+START OVER
 ===================================================== */
 
 document
-.getElementById("clearButton")
-.addEventListener(
-  "click",
-  () => {
+.getElementById(
+"startOver"
+)
+.onclick =
+() => {
 
-    mainCanvas.width=0;
-    mainCanvas.height=0;
+mainCanvas.width=0;
+mainCanvas.height=0;
 
-    detectCanvas.width=0;
-    detectCanvas.height=0;
+detectCanvas.width=0;
+detectCanvas.height=0;
 
-    originalImageData=null;
+originalImageData=null;
 
-    selectedBackground=null;
+selectedBackground=null;
 
-    pieces=[];
+pieces=[];
 
-    fileInput.value="";
+rawObjectCount=0;
 
-    results.innerHTML="";
+results.innerHTML="";
 
-    updatePieceCount();
+fileInput.value="";
 
-    statusBox.textContent =
-    "Waiting for an image.";
+updateCounts();
 
-    setStep(1);
+statusBox.textContent =
+"Waiting for an image.";
 
-  }
-);
+};
 
 </script>
 
