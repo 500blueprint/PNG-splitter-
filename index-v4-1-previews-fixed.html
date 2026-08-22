@@ -1,0 +1,2998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Moonlight Smart PNG Splitter</title>
+
+<style>
+:root{
+  --purple:#6847b8;
+  --purple2:#8d70d2;
+  --lav:#f4efff;
+  --border:#d9cdef;
+  --ink:#292338;
+  --muted:#70687d;
+  --green:#21885f;
+  --red:#c84d63;
+  --blue:#3976d7;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f0fa;
+  color:var(--ink);
+}
+
+.app{
+  width:min(1500px,96%);
+  margin:auto;
+  padding:25px 0 60px;
+}
+
+.hero{
+  background:white;
+  border:2px solid var(--border);
+  border-radius:24px;
+  padding:24px;
+  text-align:center;
+}
+
+.hero h1{
+  margin:0;
+  color:#56359a;
+  font-size:clamp(30px,5vw,55px);
+}
+
+.hero p{
+  color:var(--muted);
+}
+
+.panel{
+  background:white;
+  border:2px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  margin-top:18px;
+}
+
+.panel h2{
+  color:#53378e;
+  margin-top:0;
+}
+
+.upload{
+  display:block;
+  padding:35px;
+  text-align:center;
+  border:3px dashed #9475d4;
+  border-radius:18px;
+  background:#faf8ff;
+  cursor:pointer;
+}
+
+.upload strong{
+  font-size:22px;
+  color:#563a92;
+}
+
+.upload input{
+  display:none;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:15px;
+}
+
+button{
+  border:0;
+  padding:13px 17px;
+  border-radius:12px;
+  color:white;
+  background:var(--purple);
+  font-weight:800;
+  cursor:pointer;
+}
+
+button.green{background:var(--green)}
+button.red{background:var(--red)}
+button.blue{background:var(--blue)}
+button.gray{background:#77717d}
+
+.controls{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;
+  margin-top:15px;
+}
+
+.control{
+  background:#faf8ff;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:13px;
+}
+
+.control label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.control small{
+  display:block;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+input[type=range]{
+  width:100%;
+}
+
+select{
+  width:100%;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:9px;
+}
+
+.status{
+  margin-top:15px;
+  padding:14px;
+  background:var(--lav);
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.workspace{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+@media(max-width:850px){
+  .workspace{grid-template-columns:1fr}
+}
+
+.canvasWrap{
+  min-height:300px;
+  overflow:auto;
+  padding:10px;
+  border-radius:14px;
+
+  background-color:white;
+  background-image:
+  linear-gradient(45deg,#ddd 25%,transparent 25%),
+  linear-gradient(-45deg,#ddd 25%,transparent 25%),
+  linear-gradient(45deg,transparent 75%,#ddd 75%),
+  linear-gradient(-45deg,transparent 75%,#ddd 75%);
+
+  background-size:24px 24px;
+  background-position:
+  0 0,
+  0 12px,
+  12px -12px,
+  -12px 0;
+}
+
+canvas{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:auto;
+}
+
+.counter{
+  display:inline-block;
+  padding:9px 14px;
+  border-radius:999px;
+  background:#e4f7ed;
+  color:#176d4b;
+  font-weight:900;
+  margin-right:6px;
+}
+
+.rawCounter{
+  background:#eee7ff;
+  color:#5a3c96;
+}
+
+.results{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+
+.card{
+  border:2px solid var(--border);
+  border-radius:16px;
+  padding:10px;
+}
+
+.card.deleted{
+  opacity:.35;
+}
+
+.preview{
+  aspect-ratio:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:10px;
+
+  background-color:white;
+  background-image:
+  linear-gradient(45deg,#ddd 25%,transparent 25%),
+  linear-gradient(-45deg,#ddd 25%,transparent 25%),
+  linear-gradient(45deg,transparent 75%,#ddd 75%),
+  linear-gradient(-45deg,transparent 75%,#ddd 75%);
+
+  background-size:18px 18px;
+  background-position:
+  0 0,0 9px,9px -9px,-9px 0;
+}
+
+.preview canvas{
+  max-width:100%;
+  max-height:100%;
+}
+
+.cardButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+
+.cardButtons button{
+  padding:8px;
+  font-size:12px;
+}
+
+details{
+  margin-top:15px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+}
+
+summary{
+  font-weight:bold;
+  color:#553990;
+  cursor:pointer;
+}
+
+.modeButtons{display:flex;gap:8px;flex-wrap:wrap}
+.simpleGuide{background:#f7f4ff;border:2px solid var(--border);border-radius:16px;padding:16px;margin:14px 0}
+.simpleGuide h3{margin:0 0 8px;color:#56359a}
+.presetButtons{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.presetBtn{background:#eee7ff;color:#56359a}
+.presetBtn.active{background:var(--purple);color:#fff}
+.namePreview{margin-top:8px;padding:10px;background:white;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-family:monospace}
+input[type=text]{width:100%;padding:10px;border:1px solid var(--border);border-radius:9px;font-size:15px}.modeBtn{background:#eee7ff;color:#56359a}.modeBtn.active{background:var(--purple);color:white}.card.selected{outline:4px solid #3976d7;background:#f3f7ff}.hint{color:var(--muted);font-size:13px}.selectionBar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;padding:12px;background:#f7f4ff;border-radius:12px}
+
+.sheetModes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
+.sheetMode{background:#faf8ff;color:#56359a;border:2px solid var(--border);text-align:left;min-height:78px}
+.sheetMode.active{background:var(--purple);color:white;border-color:var(--purple)}
+.sheetMode strong{display:block;font-size:16px;margin-bottom:4px}
+.manualTools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.manualHint{padding:12px;border-radius:12px;background:#fff8df;border:1px solid #eadb9b;margin-top:10px}
+#detectCanvas.manualDraw{cursor:crosshair;touch-action:none}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="hero">
+  <h1>🌙 Moonlight Smart PNG Splitter</h1>
+
+  <p>
+    Clean backgrounds → detect irregular artwork →
+    review pieces → upscale → export PNGs.
+  </p>
+</div>
+
+
+<!-- UPLOAD -->
+
+<div class="panel">
+
+<h2>1. Upload Clipart Sheet</h2>
+
+<label class="upload" id="dropZone">
+
+<strong>📁 Drop Image Here</strong>
+
+<br><br>
+
+or tap to choose PNG / JPG / WEBP
+
+<input
+id="fileInput"
+type="file"
+accept="image/*"
+>
+
+</label>
+
+<div class="status" id="status">
+Waiting for an image.
+</div>
+
+</div>
+
+
+<!-- CLEAN -->
+
+<div class="panel">
+
+<h2>2. Smart Clean Background</h2>
+
+<p>
+For white/JPEG sheets, Smart Clean removes the outside
+background and faint JPEG residue that can connect separate pieces.
+</p>
+
+<div class="controls">
+
+<div class="control">
+
+<label>
+Background Strength:
+<span id="tolText">60</span>
+</label>
+
+<input
+id="tolerance"
+type="range"
+min="10"
+max="160"
+value="60"
+>
+
+<small>
+Try 50–90 for white JPG backgrounds.
+</small>
+
+</div>
+
+
+<div class="control">
+
+<label>
+JPEG Cleanup:
+<span id="cleanupText">35</span>
+</label>
+
+<input
+id="cleanup"
+type="range"
+min="0"
+max="100"
+value="35"
+>
+
+<small>
+Removes faint nearly-transparent residue.
+</small>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button id="smartClean">
+🪄 Smart Clean Background
+</button>
+
+<button id="restore" class="gray">
+↩ Restore Original
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PREVIEWS -->
+
+<div class="workspace">
+
+<div class="panel">
+
+<h2>Cleaned Image</h2>
+
+<p>
+You can click the background to manually sample a color.
+</p>
+
+<div class="canvasWrap">
+<canvas id="mainCanvas"></canvas>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h2>Detected Pieces</h2>
+
+<div class="canvasWrap">
+<canvas id="detectCanvas"></canvas>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DETECTION -->
+
+<div class="panel">
+
+<h2>3. Detect Pieces</h2>
+
+<div>
+
+<span
+class="counter rawCounter"
+id="rawCount"
+>
+Raw objects: 0
+</span>
+
+<span
+class="counter"
+id="keptCount"
+>
+Kept: 0
+</span>
+
+</div>
+
+
+<div class="simpleGuide">
+<h3>🧠 What kind of sheet is this?</h3>
+<div class="sheetModes">
+<button type="button" class="sheetMode active" data-sheetmode="simple"><strong>✨ Simple / Spaced Out</strong>Letters, badges, or clipart with clear space between pieces.</button>
+<button type="button" class="sheetMode" data-sheetmode="busy"><strong>🐠 Busy Clipart Sheet</strong>Characters, text, bubbles, decorations, and objects packed close together.</button>
+<button type="button" class="sheetMode" data-sheetmode="manual"><strong>✏️ Let Me Draw the Pieces</strong>Drag boxes around exactly what you want exported.</button>
+</div>
+<div class="manualHint" id="sheetHelp">Simple mode uses the fast connected-object detector.</div>
+<div class="manualTools" id="manualTools" style="display:none">
+<button type="button" id="undoManual" class="gray">↩ Undo Last Box</button>
+<button type="button" id="clearManual" class="red">🗑 Clear Boxes</button>
+</div>
+</div>
+
+<div class="simpleGuide">
+<h3>✨ Easy Detection</h3>
+<div>Not sure what the settings mean? Pick what your sheet looks like, then click <strong>Detect Pieces</strong>.</div>
+<div class="presetButtons">
+<button type="button" class="presetBtn active" data-preset="normal">✨ Normal Clipart</button>
+<button type="button" class="presetBtn" data-preset="touching">✂️ Pieces Touching</button>
+<button type="button" class="presetBtn" data-preset="multi">🧩 Design Has Multiple Parts</button>
+<button type="button" class="presetBtn" data-preset="messy">🧹 Messy JPG Background</button>
+</div>
+<small id="presetHelp">Best starting point for most transparent PNG clipart sheets.</small>
+</div>
+
+<details>
+<summary>⚙️ Manual Detection Settings — only if you need them</summary>
+
+<div class="controls">
+<div class="control">
+<label>Detection Style</label>
+<div class="modeButtons">
+<button type="button" class="modeBtn" data-mode="strict">Separate Everything</button>
+<button type="button" class="modeBtn active" data-mode="auto">Smart / Auto</button>
+<button type="button" class="modeBtn" data-mode="grouped">Keep Nearby Parts Together</button>
+</div>
+<small>Smart / Auto is recommended for most sheets.</small>
+</div>
+
+<div class="control">
+<label>Break Tiny Connections: <span id="bridgeText">1</span> px</label>
+<input id="bridgeBreak" type="range" min="0" max="4" value="1">
+<small>Increase this when two separate designs are accidentally detected as one.</small>
+</div>
+</div>
+
+<div class="controls">
+
+<div class="control">
+
+<label>
+Ignore Tiny Pieces:
+<span id="minText">0.03</span>%
+</label>
+
+<input
+id="minSize"
+type="range"
+min="1"
+max="100"
+value="3"
+>
+
+<small>
+Filters dust/JPEG artifacts.
+</small>
+
+</div>
+
+
+<div class="control">
+
+<label>
+Group Nearby:
+<span id="groupText">0</span> px
+</label>
+
+<input
+id="groupDistance"
+type="range"
+min="0"
+max="100"
+value="0"
+>
+
+<small>
+Leave at 0 first. Increase only when parts of ONE design need grouping.
+</small>
+
+</div>
+
+
+<div class="control">
+
+<label>
+Transparent Padding:
+<span id="padText">30</span> px
+</label>
+
+<input
+id="padding"
+type="range"
+min="0"
+max="150"
+value="30"
+>
+
+</div>
+
+</div>
+
+
+<details>
+
+<summary>⚙️ Advanced Detection</summary>
+
+<div class="controls">
+
+<div class="control">
+
+<label>
+Alpha Threshold:
+<span id="alphaText">45</span>
+</label>
+
+<input
+id="alphaThreshold"
+type="range"
+min="1"
+max="200"
+value="45"
+>
+
+</div>
+
+</div>
+
+</details>
+
+</details>
+
+<div class="actions">
+
+<button
+id="detect"
+class="green"
+>
+🔍 Detect Pieces
+</button>
+
+</div>
+
+</div>
+
+
+<!-- RESULTS -->
+
+<div class="panel">
+
+<h2>4. Review Pieces</h2>
+
+<div class="selectionBar">
+<strong id="selectedCount">Selected: 0</strong>
+<button id="mergeSelected" class="blue">🔗 Merge Selected</button>
+<button id="clearSelection" class="gray">Clear Selection</button>
+<span class="hint">Tap piece cards to select two or more pieces, then merge them.</span>
+</div>
+<div id="results" class="results"><div id="emptyPreviewHelp" style="grid-column:1/-1;padding:18px;text-align:center;color:var(--muted);background:#faf8ff;border:1px dashed var(--border);border-radius:12px">Upload a sheet and click <strong>Detect Pieces</strong>. Your individual previews will appear here.</div></div>
+
+</div>
+
+
+<!-- UPSCALE -->
+
+<div class="panel">
+
+<h2>5. Name & Export</h2>
+
+<div class="controls">
+
+<div class="control">
+<label>Auto Name Your Files</label>
+<input id="autoName" type="text" value="clipart" placeholder="Example: retro_christmas">
+<small>Type one name. We automatically number every piece.</small>
+<div class="namePreview" id="namePreview">clipart_01.png, clipart_02.png, clipart_03.png…</div>
+</div>
+
+<div class="control">
+
+<label>Export Size</label>
+
+<select id="scale">
+
+<option value="1">
+Original
+</option>
+
+<option value="2">
+2×
+</option>
+
+<option value="4">
+4×
+</option>
+
+<option value="5000">
+Fit inside 5000 × 5000
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+id="downloadZip"
+class="blue"
+>
+📦 Download ZIP Folder
+</button>
+
+<button
+id="startOver"
+class="red"
+>
+🗑 Start Over
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js">updateNamePreview();
+setSheetMode("simple");
+</script>
+<script>
+
+/* =====================================================
+ELEMENTS
+===================================================== */
+
+const fileInput =
+document.getElementById("fileInput");
+
+const dropZone =
+document.getElementById("dropZone");
+
+const mainCanvas =
+document.getElementById("mainCanvas");
+
+const ctx =
+mainCanvas.getContext(
+"2d",
+{willReadFrequently:true}
+);
+
+const detectCanvas =
+document.getElementById("detectCanvas");
+
+const dctx =
+detectCanvas.getContext("2d");
+
+const statusBox =
+document.getElementById("status");
+
+const results =
+document.getElementById("results");
+
+const tolerance =
+document.getElementById("tolerance");
+
+const cleanup =
+document.getElementById("cleanup");
+
+const minSize =
+document.getElementById("minSize");
+
+const groupDistance =
+document.getElementById("groupDistance");
+
+const padding =
+document.getElementById("padding");
+
+const alphaThreshold =
+document.getElementById("alphaThreshold");
+
+const scaleSelect =
+document.getElementById("scale");
+
+const bridgeBreak = document.getElementById("bridgeBreak");
+const autoName = document.getElementById("autoName");
+const namePreview = document.getElementById("namePreview");
+let detectionMode = "auto";
+let sheetMode = "simple";
+let manualBoxes = [];
+let manualStart = null;
+let manualDraft = null;
+let selectedPieces = new Set();
+
+let originalImageData = null;
+
+let selectedBackground = null;
+
+let pieces = [];
+
+let rawObjectCount = 0;
+
+let baseName = "clipart";
+
+
+/* =====================================================
+SLIDERS
+===================================================== */
+
+function slider(id,text,format){
+
+const input =
+document.getElementById(id);
+
+const output =
+document.getElementById(text);
+
+input.oninput = () => {
+
+output.textContent =
+format
+? format(input.value)
+: input.value;
+
+};
+
+}
+
+slider(
+"tolerance",
+"tolText"
+);
+
+slider(
+"cleanup",
+"cleanupText"
+);
+
+slider(
+"groupDistance",
+"groupText"
+);
+
+slider(
+"padding",
+"padText"
+);
+
+slider(
+"alphaThreshold",
+"alphaText"
+);
+
+slider("bridgeBreak","bridgeText");
+
+slider(
+"minSize",
+"minText",
+v =>
+(Number(v)/100).toFixed(2)
+);
+
+
+document.querySelectorAll(".modeBtn").forEach(btn=>{
+  btn.onclick=()=>{
+    setMode(btn.dataset.mode);
+    if(detectionMode==="strict") groupDistance.value=0;
+    if(detectionMode==="grouped" && Number(groupDistance.value)===0) groupDistance.value=35;
+    document.getElementById("groupText").textContent=groupDistance.value;
+  };
+});
+
+
+function cleanFileName(value){
+  return (value || "clipart")
+    .trim()
+    .replace(/\.[^/.]+$/,"")
+    .replace(/[^\w-]+/g,"_")
+    .replace(/^_+|_+$/g,"") || "clipart";
+}
+
+function updateNamePreview(){
+  const name=cleanFileName(autoName.value);
+  namePreview.textContent=`${name}_01.png, ${name}_02.png, ${name}_03.png…`;
+}
+autoName.addEventListener("input",updateNamePreview);
+
+const presetInfo={
+  normal:{
+    help:"Best starting point for most transparent PNG clipart sheets.",
+    mode:"auto", bridge:1, min:3, group:0, alpha:45, cleanup:35, tolerance:60
+  },
+  touching:{
+    help:"Use when separate designs are being detected as one big piece.",
+    mode:"auto", bridge:3, min:2, group:0, alpha:55, cleanup:45, tolerance:65
+  },
+  multi:{
+    help:"Use when one design has separate words, sparkles, bows, or other nearby parts that belong together.",
+    mode:"grouped", bridge:1, min:2, group:35, alpha:40, cleanup:30, tolerance:60
+  },
+  messy:{
+    help:"Best for JPGs or white backgrounds with fuzzy compression residue.",
+    mode:"auto", bridge:2, min:4, group:0, alpha:60, cleanup:60, tolerance:80
+  }
+};
+
+function setMode(mode){
+  detectionMode=mode;
+  document.querySelectorAll(".modeBtn").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+}
+
+function applyPreset(name){
+  const p=presetInfo[name];
+  if(!p) return;
+  setMode(p.mode);
+  bridgeBreak.value=p.bridge;
+  minSize.value=p.min;
+  groupDistance.value=p.group;
+  alphaThreshold.value=p.alpha;
+  cleanup.value=p.cleanup;
+  tolerance.value=p.tolerance;
+  document.getElementById("bridgeText").textContent=p.bridge;
+  document.getElementById("minText").textContent=(p.min/100).toFixed(2);
+  document.getElementById("groupText").textContent=p.group;
+  document.getElementById("alphaText").textContent=p.alpha;
+  document.getElementById("cleanupText").textContent=p.cleanup;
+  document.getElementById("tolText").textContent=p.tolerance;
+  document.getElementById("presetHelp").textContent=p.help;
+  document.querySelectorAll(".presetBtn").forEach(b=>b.classList.toggle("active",b.dataset.preset===name));
+  statusBox.textContent=`Easy preset selected: ${p.help}`;
+}
+
+document.querySelectorAll(".presetBtn").forEach(btn=>{
+  btn.onclick=()=>applyPreset(btn.dataset.preset);
+});
+
+/* =====================================================
+UPLOAD
+===================================================== */
+
+fileInput.onchange =
+event => {
+
+const file =
+event.target.files[0];
+
+if(file){
+loadFile(file);
+}
+
+};
+
+
+dropZone.ondragover =
+event => {
+event.preventDefault();
+};
+
+
+dropZone.ondrop =
+event => {
+
+event.preventDefault();
+
+const file =
+event.dataTransfer.files[0];
+
+if(
+file &&
+file.type.startsWith("image/")
+){
+loadFile(file);
+}
+
+};
+
+
+function loadFile(file){
+
+baseName =
+file.name
+.replace(/\.[^/.]+$/,"")
+.replace(/[^\w-]+/g,"_");
+
+autoName.value = baseName;
+updateNamePreview();
+
+const reader =
+new FileReader();
+
+reader.onload =
+event => {
+
+const image =
+new Image();
+
+image.onload =
+() => {
+
+mainCanvas.width =
+image.naturalWidth;
+
+mainCanvas.height =
+image.naturalHeight;
+
+detectCanvas.width =
+image.naturalWidth;
+
+detectCanvas.height =
+image.naturalHeight;
+
+ctx.clearRect(
+0,
+0,
+mainCanvas.width,
+mainCanvas.height
+);
+
+ctx.drawImage(
+image,
+0,
+0
+);
+
+originalImageData =
+ctx.getImageData(
+0,
+0,
+mainCanvas.width,
+mainCanvas.height
+);
+
+selectedBackground = null;
+
+manualBoxes = [];
+pieces = [];
+
+rawObjectCount = 0;
+
+results.innerHTML = "";
+
+updateCounts();
+
+redrawDetection();
+
+statusBox.textContent =
+`Loaded ${image.naturalWidth} × ${image.naturalHeight}px.`;
+
+};
+
+image.src =
+event.target.result;
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* =====================================================
+CLICK TO SAMPLE BACKGROUND
+===================================================== */
+
+mainCanvas.onclick =
+event => {
+
+if(!mainCanvas.width){
+return;
+}
+
+const rect =
+mainCanvas.getBoundingClientRect();
+
+const x =
+Math.floor(
+(event.clientX-rect.left)
+*
+mainCanvas.width
+/
+rect.width
+);
+
+const y =
+Math.floor(
+(event.clientY-rect.top)
+*
+mainCanvas.height
+/
+rect.height
+);
+
+const pixel =
+ctx.getImageData(
+x,
+y,
+1,
+1
+).data;
+
+selectedBackground = {
+
+r:pixel[0],
+g:pixel[1],
+b:pixel[2]
+
+};
+
+statusBox.textContent =
+`Sampled RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]}).`;
+
+};
+
+
+/* =====================================================
+BACKGROUND SAMPLE
+
+Use many border samples instead of only four corners.
+This is much better for JPG sheets.
+===================================================== */
+
+function sampleBorderBackground(){
+
+const image =
+originalImageData;
+
+const data =
+image.data;
+
+const width =
+image.width;
+
+const height =
+image.height;
+
+const samples = [];
+
+const step =
+Math.max(
+1,
+Math.floor(
+Math.min(width,height)/50
+)
+);
+
+
+/*
+Top / bottom
+*/
+
+for(
+let x=0;
+x<width;
+x+=step
+){
+
+samples.push(
+pixelAt(
+data,
+width,
+x,
+0
+)
+);
+
+samples.push(
+pixelAt(
+data,
+width,
+x,
+height-1
+)
+);
+
+}
+
+
+/*
+Left / right
+*/
+
+for(
+let y=0;
+y<height;
+y+=step
+){
+
+samples.push(
+pixelAt(
+data,
+width,
+0,
+y
+)
+);
+
+samples.push(
+pixelAt(
+data,
+width,
+width-1,
+y
+)
+);
+
+}
+
+
+/*
+Median-ish average of bright border pixels.
+*/
+
+const bright =
+samples.filter(
+p =>
+p.r+p.g+p.b >
+500
+);
+
+
+const use =
+bright.length
+?
+bright
+:
+samples;
+
+
+let r=0;
+let g=0;
+let b=0;
+
+
+for(const p of use){
+
+r += p.r;
+g += p.g;
+b += p.b;
+
+}
+
+
+return {
+
+r:Math.round(r/use.length),
+
+g:Math.round(g/use.length),
+
+b:Math.round(b/use.length)
+
+};
+
+}
+
+
+function pixelAt(
+data,
+width,
+x,
+y
+){
+
+const i =
+(y*width+x)*4;
+
+return {
+
+r:data[i],
+g:data[i+1],
+b:data[i+2]
+
+};
+
+}
+
+
+/* =====================================================
+COLOR DISTANCE
+===================================================== */
+
+function distance(
+r,
+g,
+b,
+target
+){
+
+const dr =
+r-target.r;
+
+const dg =
+g-target.g;
+
+const db =
+b-target.b;
+
+return Math.sqrt(
+dr*dr +
+dg*dg +
+db*db
+);
+
+}
+
+
+/* =====================================================
+SMART CLEAN
+
+KEY DIFFERENCE:
+
+We flood-fill FROM THE OUTSIDE.
+
+This prevents white details inside artwork
+from being deleted simply because they're white.
+===================================================== */
+
+document
+.getElementById("smartClean")
+.onclick =
+smartClean;
+
+
+function smartClean(){
+
+if(!originalImageData){
+
+statusBox.textContent =
+"Upload an image first.";
+
+return;
+
+}
+
+
+/*
+Restore original before each attempt.
+*/
+
+ctx.putImageData(
+originalImageData,
+0,
+0
+);
+
+
+const image =
+ctx.getImageData(
+0,
+0,
+mainCanvas.width,
+mainCanvas.height
+);
+
+const data =
+image.data;
+
+const width =
+image.width;
+
+const height =
+image.height;
+
+const total =
+width*height;
+
+
+const target =
+selectedBackground ||
+sampleBorderBackground();
+
+
+const strength =
+Number(tolerance.value);
+
+
+/*
+Background candidate mask.
+*/
+
+const candidate =
+new Uint8Array(total);
+
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+const p =
+i*4;
+
+const d =
+distance(
+data[p],
+data[p+1],
+data[p+2],
+target
+);
+
+
+if(
+d <= strength
+){
+
+candidate[i]=1;
+
+}
+
+}
+
+
+/*
+Flood fill only background connected
+to the outside edge.
+*/
+
+const background =
+new Uint8Array(total);
+
+const queue = [];
+
+let head = 0;
+
+
+function add(index){
+
+if(
+index<0 ||
+index>=total ||
+background[index] ||
+!candidate[index]
+){
+return;
+}
+
+background[index]=1;
+
+queue.push(index);
+
+}
+
+
+/*
+Add top/bottom edges.
+*/
+
+for(
+let x=0;
+x<width;
+x++
+){
+
+add(x);
+
+add(
+(height-1)*width+x
+);
+
+}
+
+
+/*
+Add left/right edges.
+*/
+
+for(
+let y=0;
+y<height;
+y++
+){
+
+add(
+y*width
+);
+
+add(
+y*width +
+width-1
+);
+
+}
+
+
+while(
+head <
+queue.length
+){
+
+const current =
+queue[head++];
+
+const y =
+Math.floor(
+current/width
+);
+
+const x =
+current-y*width;
+
+
+if(x>0){
+add(current-1);
+}
+
+if(x<width-1){
+add(current+1);
+}
+
+if(y>0){
+add(current-width);
+}
+
+if(y<height-1){
+add(current+width);
+}
+
+}
+
+
+/*
+Make flooded background transparent.
+*/
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+if(
+background[i]
+){
+
+data[
+i*4+3
+]=0;
+
+}
+
+}
+
+
+/*
+JPEG RESIDUE CLEANUP
+
+After flood removal, faint near-background
+pixels around the artwork may remain.
+
+Fade those rather than allowing them to
+become bridges.
+*/
+
+const cleanStrength =
+Number(cleanup.value);
+
+
+for(
+let i=0;
+i<total;
+i++
+){
+
+const p =
+i*4;
+
+if(
+data[p+3]===0
+){
+continue;
+}
+
+
+const d =
+distance(
+data[p],
+data[p+1],
+data[p+2],
+target
+);
+
+
+const fadeStart =
+strength;
+
+
+const fadeEnd =
+strength +
+cleanStrength;
+
+
+if(
+cleanStrength>0 &&
+d < fadeEnd
+){
+
+const ratio =
+Math.max(
+0,
+Math.min(
+1,
+(d-fadeStart)
+/
+Math.max(
+1,
+cleanStrength
+)
+)
+);
+
+
+data[p+3] =
+Math.round(
+data[p+3] *
+ratio
+);
+
+}
+
+}
+
+
+ctx.putImageData(
+image,
+0,
+0
+);
+
+
+pieces=[];
+selectedPieces.clear(); updateSelectionUI();
+
+rawObjectCount=0;
+
+results.innerHTML="";
+
+redrawDetection();
+
+updateCounts();
+
+statusBox.textContent =
+"Smart Clean complete. Transparent checkerboard should now appear between separate designs.";
+
+}
+
+
+/* =====================================================
+RESTORE
+===================================================== */
+
+document
+.getElementById("restore")
+.onclick =
+() => {
+
+if(!originalImageData){
+return;
+}
+
+ctx.putImageData(
+originalImageData,
+0,
+0
+);
+
+selectedBackground=null;
+
+manualBoxes=[];
+pieces=[];
+selectedPieces.clear(); updateSelectionUI();
+
+rawObjectCount=0;
+
+results.innerHTML="";
+
+redrawDetection();
+
+updateCounts();
+
+statusBox.textContent =
+"Original restored.";
+
+};
+
+
+/* =====================================================
+DETECT
+===================================================== */
+
+document
+.getElementById("detect")
+.onclick =
+detectPieces;
+
+
+
+const sheetHelp=document.getElementById("sheetHelp");
+const manualTools=document.getElementById("manualTools");
+
+function setSheetMode(mode){
+  sheetMode=mode;
+  document.querySelectorAll(".sheetMode").forEach(b=>b.classList.toggle("active",b.dataset.sheetmode===mode));
+  manualTools.style.display=mode==="manual" ? "flex" : "none";
+  detectCanvas.classList.toggle("manualDraw",mode==="manual");
+
+  if(mode==="simple"){
+    sheetHelp.textContent="Simple mode is best for letters, badges, and clearly separated artwork.";
+    applyPreset("normal");
+  }else if(mode==="busy"){
+    sheetHelp.textContent="Busy mode ignores tiny decorations first, finds the main visual groups, then groups nearby parts without letting bubbles and specks glue the whole sheet together.";
+    applyPreset("multi");
+    groupDistance.value=18;
+    document.getElementById("groupText").textContent="18";
+  }else{
+    sheetHelp.textContent="Manual mode: drag a box around each complete design. What is inside each box becomes one exported PNG.";
+    pieces=manualBoxes.map(b=>({...b,pixels:(b.maxX-b.minX+1)*(b.maxY-b.minY+1),deleted:false,manual:true}));
+    renderPieces(); redrawDetection(); updateCounts();
+  }
+}
+
+document.querySelectorAll(".sheetMode").forEach(btn=>{
+  btn.onclick=()=>setSheetMode(btn.dataset.sheetmode);
+});
+
+function componentWidth(c){return c.maxX-c.minX+1}
+function componentHeight(c){return c.maxY-c.minY+1}
+function componentArea(c){return componentWidth(c)*componentHeight(c)}
+function centerOf(c){return {x:(c.minX+c.maxX)/2,y:(c.minY+c.maxY)/2}}
+
+function smartBusyGroup(components,width,height){
+  if(!components.length) return [];
+
+  // Major objects are chosen by visual footprint, not raw count alone.
+  const areas=components.map(componentArea).sort((a,b)=>a-b);
+  const median=areas[Math.floor(areas.length/2)] || 1;
+  const sheetArea=width*height;
+  const major=components.filter(c=>
+    componentArea(c)>=Math.max(median*2.2,sheetArea*0.0012) ||
+    c.pixels>=sheetArea*0.0008
+  ).map(c=>({...c}));
+
+  let small=components.filter(c=>!major.includes(c));
+  // includes() above compares originals only; rebuild based on footprint identity
+  const majorKeys=new Set(major.map(c=>`${c.minX},${c.minY},${c.maxX},${c.maxY}`));
+  small=components.filter(c=>!majorKeys.has(`${c.minX},${c.minY},${c.maxX},${c.maxY}`));
+
+  let groups=major.length ? major : components.map(c=>({...c}));
+
+  // Join substantial neighboring parts using adaptive distance.
+  const adaptive=Math.max(12,Math.round(Math.min(width,height)*0.018));
+  groups=mergeNearby(groups,adaptive);
+
+  // Attach only small items that are clearly closest to one group.
+  for(const item of small){
+    if(componentArea(item)>sheetArea*0.0025) continue;
+    const distances=groups.map((g,i)=>({i,d:boxDistance(g,item)})).sort((a,b)=>a.d-b.d);
+    if(!distances.length) continue;
+    const best=distances[0];
+    const second=distances[1];
+    const attachLimit=Math.max(18,Math.min(width,height)*0.025);
+    const clearlyClosest=!second || best.d < second.d*0.58;
+    if(best.d<=attachLimit && clearlyClosest){
+      const g=groups[best.i];
+      groups[best.i]={
+        minX:Math.min(g.minX,item.minX), minY:Math.min(g.minY,item.minY),
+        maxX:Math.max(g.maxX,item.maxX), maxY:Math.max(g.maxY,item.maxY),
+        pixels:g.pixels+item.pixels, deleted:false
+      };
+    }
+  }
+
+  // Do not allow giant accidental groups spanning most of the sheet.
+  groups=groups.filter(g=>componentArea(g)<sheetArea*0.82);
+  return groups;
+}
+
+function canvasPoint(event){
+  const rect=detectCanvas.getBoundingClientRect();
+  const touch=event.touches ? event.touches[0] : event;
+  return {
+    x:Math.max(0,Math.min(detectCanvas.width-1,Math.round((touch.clientX-rect.left)*detectCanvas.width/rect.width))),
+    y:Math.max(0,Math.min(detectCanvas.height-1,Math.round((touch.clientY-rect.top)*detectCanvas.height/rect.height)))
+  };
+}
+
+function beginManual(e){
+  if(sheetMode!=="manual" || !mainCanvas.width) return;
+  e.preventDefault();
+  manualStart=canvasPoint(e);
+  manualDraft={minX:manualStart.x,minY:manualStart.y,maxX:manualStart.x,maxY:manualStart.y};
+  redrawDetection();
+}
+function moveManual(e){
+  if(sheetMode!=="manual" || !manualStart) return;
+  e.preventDefault();
+  const p=canvasPoint(e);
+  manualDraft={
+    minX:Math.min(manualStart.x,p.x), minY:Math.min(manualStart.y,p.y),
+    maxX:Math.max(manualStart.x,p.x), maxY:Math.max(manualStart.y,p.y)
+  };
+  redrawDetection();
+}
+function endManual(e){
+  if(sheetMode!=="manual" || !manualStart) return;
+  e.preventDefault();
+  const box=manualDraft;
+  manualStart=null; manualDraft=null;
+  if(box && componentWidth(box)>8 && componentHeight(box)>8){
+    manualBoxes.push({...box});
+  }
+  pieces=manualBoxes.map(b=>({...b,pixels:componentArea(b),deleted:false,manual:true}));
+  rawObjectCount=pieces.length;
+  renderPieces(); redrawDetection(); updateCounts();
+  statusBox.textContent=`Manual mode: ${pieces.length} box${pieces.length===1?"":"es"} ready to export.`;
+}
+detectCanvas.addEventListener("mousedown",beginManual);
+detectCanvas.addEventListener("mousemove",moveManual);
+window.addEventListener("mouseup",endManual);
+detectCanvas.addEventListener("touchstart",beginManual,{passive:false});
+detectCanvas.addEventListener("touchmove",moveManual,{passive:false});
+detectCanvas.addEventListener("touchend",endManual,{passive:false});
+
+document.getElementById("undoManual").onclick=()=>{
+  manualBoxes.pop();
+  pieces=manualBoxes.map(b=>({...b,pixels:componentArea(b),deleted:false,manual:true}));
+  rawObjectCount=pieces.length; renderPieces(); redrawDetection(); updateCounts();
+};
+document.getElementById("clearManual").onclick=()=>{
+  manualBoxes=[]; pieces=[]; rawObjectCount=0; renderPieces(); redrawDetection(); updateCounts();
+};
+
+function detectPieces(){
+
+if(sheetMode==="manual"){
+  pieces=manualBoxes.map(b=>({...b,pixels:componentArea(b),deleted:false,manual:true}));
+  rawObjectCount=pieces.length;
+  renderPieces(); redrawDetection(); updateCounts();
+  statusBox.textContent="Manual mode is active — drag boxes directly on the Detected Pieces image.";
+  return;
+}
+
+if(!mainCanvas.width){
+return;
+}
+
+
+const width =
+mainCanvas.width;
+
+const height =
+mainCanvas.height;
+
+const image =
+ctx.getImageData(
+0,
+0,
+width,
+height
+);
+
+const data =
+image.data;
+
+const total =
+width*height;
+
+const visited =
+new Uint8Array(total);
+
+const threshold =
+Number(alphaThreshold.value);
+
+
+/*
+IMPORTANT:
+
+This threshold filters faint transparent
+JPEG residue during detection.
+*/
+
+const visibleMask = new Uint8Array(total);
+for(let i=0;i<total;i++) visibleMask[i] = data[i*4+3] >= threshold ? 1 : 0;
+
+// AUTO/GROUPED: remove only very weak, skinny bridge pixels.
+// This preserves the original artwork while making connected-component detection less vulnerable to JPEG residue.
+if(detectionMode!=="strict" && Number(bridgeBreak.value)>0){
+  const passes=Number(bridgeBreak.value);
+  for(let pass=0;pass<passes;pass++){
+    const next=visibleMask.slice();
+    for(let y=1;y<height-1;y++){
+      for(let x=1;x<width-1;x++){
+        const i=y*width+x; if(!visibleMask[i]) continue;
+        let neighbors=0;
+        for(let yy=-1;yy<=1;yy++) for(let xx=-1;xx<=1;xx++) if(xx||yy) neighbors+=visibleMask[(y+yy)*width+x+xx];
+        // only delete extremely isolated/line-like pixels with low alpha
+        if(neighbors<=2 && data[i*4+3] < Math.min(255, threshold+70)) next[i]=0;
+      }
+    }
+    visibleMask.set(next);
+  }
+}
+
+function visible(index){ return visibleMask[index]===1; }
+
+
+const dirs = [
+
+[-1,-1],
+[0,-1],
+[1,-1],
+
+[-1,0],
+[1,0],
+
+[-1,1],
+[0,1],
+[1,1]
+
+];
+
+
+let components = [];
+
+
+for(
+let y=0;
+y<height;
+y++
+){
+
+for(
+let x=0;
+x<width;
+x++
+){
+
+const start =
+y*width+x;
+
+if(
+visited[start] ||
+!visible(start)
+){
+continue;
+}
+
+
+visited[start]=1;
+
+const queue =
+[start];
+
+let head=0;
+
+let minX=x;
+let maxX=x;
+
+let minY=y;
+let maxY=y;
+
+let count=0;
+
+
+while(
+head <
+queue.length
+){
+
+const current =
+queue[head++];
+
+const cy =
+Math.floor(
+current/width
+);
+
+const cx =
+current-cy*width;
+
+count++;
+
+minX =
+Math.min(
+minX,
+cx
+);
+
+maxX =
+Math.max(
+maxX,
+cx
+);
+
+minY =
+Math.min(
+minY,
+cy
+);
+
+maxY =
+Math.max(
+maxY,
+cy
+);
+
+
+for(
+const [dx,dy]
+of dirs
+){
+
+const nx =
+cx+dx;
+
+const ny =
+cy+dy;
+
+
+if(
+nx<0 ||
+ny<0 ||
+nx>=width ||
+ny>=height
+){
+continue;
+}
+
+
+const ni =
+ny*width+nx;
+
+
+if(
+visited[ni]
+){
+continue;
+}
+
+
+if(
+visible(ni)
+){
+
+visited[ni]=1;
+
+queue.push(ni);
+
+}
+
+}
+
+}
+
+
+components.push({
+
+minX,
+minY,
+maxX,
+maxY,
+
+pixels:count,
+
+deleted:false
+
+});
+
+}
+
+}
+
+
+/*
+THIS NUMBER IS IMPORTANT.
+
+It shows what the detector sees BEFORE
+we filter or group anything.
+*/
+
+rawObjectCount =
+components.length;
+
+
+/*
+Remove tiny artifacts AFTER counting raw objects.
+*/
+
+const minimumPixels =
+
+total *
+(
+Number(minSize.value)
+/
+10000
+);
+
+
+components =
+components.filter(
+piece =>
+piece.pixels >=
+minimumPixels
+);
+
+
+/*
+Busy-sheet visual grouping.
+This deliberately happens before the normal optional grouping.
+*/
+if(sheetMode==="busy"){
+  components=smartBusyGroup(components,width,height);
+}
+
+/*
+Optional grouping.
+
+Default = ZERO.
+*/
+
+const group =
+Number(
+groupDistance.value
+);
+
+
+if(group>0 && sheetMode!=="busy"){
+
+components =
+mergeNearby(
+components,
+group
+);
+
+}
+
+
+/*
+Sort roughly top-to-bottom then left-to-right.
+
+This makes numbering easier to understand
+than sorting by size.
+*/
+
+components.sort(
+(a,b) => {
+
+const rowTolerance =
+Math.max(
+30,
+height*.04
+);
+
+
+if(
+Math.abs(
+a.minY-b.minY
+)
+<
+rowTolerance
+){
+
+return (
+a.minX-b.minX
+);
+
+}
+
+
+return (
+a.minY-b.minY
+);
+
+}
+);
+
+
+pieces =
+components;
+selectedPieces.clear();
+updateSelectionUI();
+
+
+redrawDetection();
+
+renderPieces();
+
+updateCounts();
+
+
+statusBox.textContent =
+`Mode ${detectionMode.toUpperCase()}: found ${rawObjectCount} raw objects and kept ${pieces.length} after filtering/grouping.`;
+
+}
+
+
+/* =====================================================
+BOX DISTANCE
+===================================================== */
+
+function boxDistance(
+a,
+b
+){
+
+const dx =
+
+Math.max(
+
+0,
+
+Math.max(
+a.minX,
+b.minX
+)
+
+-
+
+Math.min(
+a.maxX,
+b.maxX
+)
+
+);
+
+
+const dy =
+
+Math.max(
+
+0,
+
+Math.max(
+a.minY,
+b.minY
+)
+
+-
+
+Math.min(
+a.maxY,
+b.maxY
+)
+
+);
+
+
+return Math.sqrt(
+dx*dx +
+dy*dy
+);
+
+}
+
+
+/* =====================================================
+GROUPING
+===================================================== */
+
+function mergeNearby(
+input,
+distance
+){
+
+let list =
+input.map(
+x => ({...x})
+);
+
+let changed=true;
+
+
+while(changed){
+
+changed=false;
+
+
+outer:
+
+for(
+let i=0;
+i<list.length;
+i++
+){
+
+for(
+let j=i+1;
+j<list.length;
+j++
+){
+
+if(
+boxDistance(
+list[i],
+list[j]
+)
+<=
+distance
+){
+
+list[i] = {
+
+minX:
+Math.min(
+list[i].minX,
+list[j].minX
+),
+
+minY:
+Math.min(
+list[i].minY,
+list[j].minY
+),
+
+maxX:
+Math.max(
+list[i].maxX,
+list[j].maxX
+),
+
+maxY:
+Math.max(
+list[i].maxY,
+list[j].maxY
+),
+
+pixels:
+list[i].pixels +
+list[j].pixels,
+
+deleted:false
+
+};
+
+
+list.splice(
+j,
+1
+);
+
+changed=true;
+
+break outer;
+
+}
+
+}
+
+}
+
+}
+
+
+return list;
+
+}
+
+
+/* =====================================================
+DRAW DETECTION
+===================================================== */
+
+function redrawDetection(){
+
+dctx.clearRect(
+0,
+0,
+detectCanvas.width,
+detectCanvas.height
+);
+
+if(mainCanvas.width){
+  dctx.drawImage(mainCanvas,0,0);
+}
+
+pieces.forEach(
+(piece,index) => {
+
+if(piece.deleted){
+  return;
+}
+
+const w = piece.maxX - piece.minX + 1;
+const h = piece.maxY - piece.minY + 1;
+
+dctx.strokeStyle = piece.selected ? "#3976d7" : "#00b86b";
+dctx.lineWidth = Math.max(3,mainCanvas.width/700);
+
+dctx.strokeRect(
+piece.minX,
+piece.minY,
+w,
+h
+);
+
+const fontSize = Math.max(18,mainCanvas.width/65);
+dctx.font = `bold ${fontSize}px Arial`;
+dctx.fillStyle = piece.selected ? "#3976d7" : "#00a55f";
+
+dctx.fillText(
+String(index+1),
+piece.minX+5,
+piece.minY+fontSize
+);
+
+});
+
+if(sheetMode==="manual" && manualDraft){
+  dctx.save();
+  dctx.strokeStyle="#3976d7";
+  dctx.lineWidth=Math.max(3,mainCanvas.width/700);
+  dctx.setLineDash([12,8]);
+  dctx.strokeRect(
+    manualDraft.minX,
+    manualDraft.minY,
+    componentWidth(manualDraft),
+    componentHeight(manualDraft)
+  );
+  dctx.restore();
+}
+
+}
+
+/* =====================================================
+CROP
+===================================================== */
+
+function cropPiece(piece){
+
+const pad =
+Number(padding.value);
+
+const x =
+Math.max(
+0,
+piece.minX-pad
+);
+
+const y =
+Math.max(
+0,
+piece.minY-pad
+);
+
+const right =
+Math.min(
+mainCanvas.width,
+piece.maxX+pad+1
+);
+
+const bottom =
+Math.min(
+mainCanvas.height,
+piece.maxY+pad+1
+);
+
+const width =
+right-x;
+
+const height =
+bottom-y;
+
+
+const output =
+document.createElement(
+"canvas"
+);
+
+output.width =
+width;
+
+output.height =
+height;
+
+
+output
+.getContext("2d")
+.drawImage(
+
+mainCanvas,
+
+x,
+y,
+width,
+height,
+
+0,
+0,
+width,
+height
+
+);
+
+
+return output;
+
+}
+
+
+/* =====================================================
+RESULT CARDS
+===================================================== */
+
+function renderPieces(){
+
+results.innerHTML="";
+
+if(!pieces.length){
+  results.innerHTML='<div style="grid-column:1/-1;padding:18px;text-align:center;color:var(--muted);background:#faf8ff;border:1px dashed var(--border);border-radius:12px">No pieces yet. Choose a sheet type and click <strong>Detect Pieces</strong>, or draw boxes in Manual mode.</div>';
+  return;
+}
+
+pieces.forEach(
+(piece,index) => {
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"card";
+if(selectedPieces.has(index)) card.classList.add("selected");
+card.onclick = event => {
+  if(event.target.closest("button")) return;
+  if(selectedPieces.has(index)) selectedPieces.delete(index); else selectedPieces.add(index);
+  renderPieces(); updateSelectionUI();
+};
+
+
+if(piece.deleted){
+card.classList.add(
+"deleted"
+);
+}
+
+
+const preview =
+document.createElement(
+"div"
+);
+
+preview.className =
+"preview";
+
+
+const canvas =
+cropPiece(piece);
+
+preview.appendChild(
+canvas
+);
+
+
+const title =
+document.createElement(
+"h3"
+);
+
+title.textContent =
+`Piece ${index+1}`;
+
+
+const info =
+document.createElement(
+"p"
+);
+
+info.textContent =
+`${canvas.width} × ${canvas.height}px`;
+
+
+const buttons =
+document.createElement(
+"div"
+);
+
+buttons.className =
+"cardButtons";
+
+
+const keep =
+document.createElement(
+"button"
+);
+
+keep.className =
+"green";
+
+keep.textContent =
+"✓ Keep";
+
+keep.onclick =
+() => {
+
+piece.deleted=false;
+
+renderPieces();
+
+redrawDetection();
+
+updateCounts();
+
+};
+
+
+const remove =
+document.createElement(
+"button"
+);
+
+remove.className =
+"red";
+
+remove.textContent =
+"✕ Delete";
+
+remove.onclick =
+() => {
+
+piece.deleted=true;
+
+renderPieces();
+
+redrawDetection();
+
+updateCounts();
+
+};
+
+
+const download =
+document.createElement(
+"button"
+);
+
+download.className =
+"blue";
+
+download.textContent =
+"⬇ PNG";
+
+download.onclick =
+() => {
+
+downloadPiece(
+piece,
+index
+);
+
+};
+
+
+buttons.append(
+keep,
+remove,
+download
+);
+
+
+card.append(
+preview,
+title,
+info,
+buttons
+);
+
+
+results.appendChild(
+card
+);
+
+});
+
+}
+
+
+function updateSelectionUI(){
+  const el=document.getElementById("selectedCount");
+  if(el) el.textContent=`Selected: ${selectedPieces.size}`;
+}
+
+document.getElementById("clearSelection").onclick=()=>{selectedPieces.clear();renderPieces();updateSelectionUI();};
+document.getElementById("mergeSelected").onclick=()=>{
+  const ids=[...selectedPieces].sort((a,b)=>a-b).filter(i=>pieces[i] && !pieces[i].deleted);
+  if(ids.length<2){statusBox.textContent="Select at least two kept pieces to merge.";return;}
+  const chosen=ids.map(i=>pieces[i]);
+  const merged={
+    minX:Math.min(...chosen.map(p=>p.minX)), minY:Math.min(...chosen.map(p=>p.minY)),
+    maxX:Math.max(...chosen.map(p=>p.maxX)), maxY:Math.max(...chosen.map(p=>p.maxY)),
+    pixels:chosen.reduce((n,p)=>n+p.pixels,0), deleted:false
+  };
+  const first=ids[0];
+  pieces=pieces.filter((_,i)=>!selectedPieces.has(i));
+  pieces.splice(Math.min(first,pieces.length),0,merged);
+  selectedPieces.clear(); renderPieces(); redrawDetection(); updateCounts(); updateSelectionUI();
+  statusBox.textContent="Selected pieces merged.";
+};
+
+/* =====================================================
+COUNTS
+===================================================== */
+
+function updateCounts(){
+
+document
+.getElementById(
+"rawCount"
+)
+.textContent =
+`Raw objects: ${rawObjectCount}`;
+
+
+const kept =
+pieces.filter(
+x =>
+!x.deleted
+).length;
+
+
+document
+.getElementById(
+"keptCount"
+)
+.textContent =
+`Kept: ${kept}`;
+
+}
+
+
+/* =====================================================
+UPSCALE
+===================================================== */
+
+function upscale(source){
+
+const mode =
+scaleSelect.value;
+
+
+if(mode==="1"){
+return source;
+}
+
+
+let width;
+let height;
+
+
+if(mode==="5000"){
+
+const ratio =
+Math.min(
+5000/source.width,
+5000/source.height
+);
+
+width =
+Math.round(
+source.width*ratio
+);
+
+height =
+Math.round(
+source.height*ratio
+);
+
+}
+
+else{
+
+const multiplier =
+Number(mode);
+
+width =
+source.width *
+multiplier;
+
+height =
+source.height *
+multiplier;
+
+}
+
+
+/*
+Safety cap.
+*/
+
+const max =
+10000;
+
+
+if(
+width>max ||
+height>max
+){
+
+const ratio =
+Math.min(
+max/width,
+max/height
+);
+
+width =
+Math.round(
+width*ratio
+);
+
+height =
+Math.round(
+height*ratio
+);
+
+}
+
+
+const output =
+document.createElement(
+"canvas"
+);
+
+output.width =
+width;
+
+output.height =
+height;
+
+
+const octx =
+output.getContext("2d");
+
+octx.imageSmoothingEnabled =
+true;
+
+octx.imageSmoothingQuality =
+"high";
+
+
+octx.drawImage(
+source,
+0,
+0,
+width,
+height
+);
+
+
+return output;
+
+}
+
+
+/* =====================================================
+DOWNLOAD ONE
+===================================================== */
+
+function downloadPiece(
+piece,
+index
+){
+
+const crop =
+cropPiece(piece);
+
+const output =
+upscale(crop);
+
+
+output.toBlob(
+blob => {
+
+const url =
+URL.createObjectURL(
+blob
+);
+
+const link =
+document.createElement(
+"a"
+);
+
+link.href =
+url;
+
+link.download =
+`${cleanFileName(autoName.value)}_${String(index+1).padStart(2,"0")}.png`;
+
+document.body.appendChild(
+link
+);
+
+link.click();
+
+link.remove();
+
+
+setTimeout(
+() =>
+URL.revokeObjectURL(url),
+1000
+);
+
+},
+"image/png"
+);
+
+}
+
+
+/* =====================================================
+DOWNLOAD ZIP
+===================================================== */
+
+function canvasToBlob(canvas){
+  return new Promise((resolve,reject)=>{
+    canvas.toBlob(blob=>{
+      if(blob) resolve(blob);
+      else reject(new Error("Could not create PNG."));
+    },"image/png");
+  });
+}
+
+document.getElementById("downloadZip").onclick = async () => {
+  const active = pieces
+    .map((piece,index)=>({piece,index}))
+    .filter(x=>!x.piece.deleted);
+
+  if(!active.length){
+    statusBox.textContent="No kept pieces to export.";
+    return;
+  }
+
+  if(typeof JSZip==="undefined"){
+    statusBox.textContent="ZIP tool could not load. Check your internet connection and refresh the page.";
+    return;
+  }
+
+  const button=document.getElementById("downloadZip");
+  const oldText=button.textContent;
+  button.disabled=true;
+  button.textContent="📦 Building ZIP…";
+  statusBox.textContent=`Preparing ${active.length} PNGs…`;
+
+  try{
+    const zip=new JSZip();
+    const folderName=cleanFileName(autoName.value);
+    const folder=zip.folder(folderName);
+
+    for(let n=0;n<active.length;n++){
+      const item=active[n];
+      const crop=cropPiece(item.piece);
+      const output=upscale(crop);
+      const blob=await canvasToBlob(output);
+      const filename=`${folderName}_${String(n+1).padStart(2,"0")}.png`;
+      folder.file(filename,blob);
+      statusBox.textContent=`Packing ${n+1} of ${active.length}: ${filename}`;
+      await new Promise(resolve=>setTimeout(resolve,0));
+    }
+
+    statusBox.textContent="Compressing ZIP folder…";
+    const blob=await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:6}});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download=`${folderName}.zip`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    statusBox.textContent=`Done! ${active.length} PNGs saved inside ${folderName}.zip`;
+  }catch(err){
+    console.error(err);
+    statusBox.textContent="ZIP export failed: "+err.message;
+  }finally{
+    button.disabled=false;
+    button.textContent=oldText;
+  }
+};
+
+
+/* =====================================================
+START OVER
+===================================================== */
+
+document
+.getElementById(
+"startOver"
+)
+.onclick =
+() => {
+
+mainCanvas.width=0;
+mainCanvas.height=0;
+
+detectCanvas.width=0;
+detectCanvas.height=0;
+
+originalImageData=null;
+
+selectedBackground=null;
+
+pieces=[];
+selectedPieces.clear(); updateSelectionUI();
+
+rawObjectCount=0;
+
+results.innerHTML="";
+
+fileInput.value="";
+
+updateCounts();
+
+statusBox.textContent =
+"Waiting for an image.";
+
+};
+
+</script>
+
+</body>
+</html>
